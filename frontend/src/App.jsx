@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Button, Heading, VStack } from '@chakra-ui/react';
+
 
 const  App = () => {
   useEffect(() => {
@@ -16,9 +18,11 @@ const  App = () => {
 
   return (
     <>
-      <h1>{count}</h1>
-      <button size='20px' onClick={countUp}>+</button>
+      <VStack>
+        <Heading>{count}</Heading>
+      <Button bg="blue" onClick={countUp}>ボタン</Button>
       <h1>Hello React</h1>
+      </VStack>
     </>
   );
 }
