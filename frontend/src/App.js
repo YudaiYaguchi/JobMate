@@ -1,32 +1,25 @@
-import { useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
 
-function App() {
+const  App = () => {
   useEffect(() => {
-    fetch('http://localhost:3000/api/v1/health_check')
+    fetch('http://localhost:3001/api/user/index')
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.error('Error:', error));
   }, []);
 
+  const [count,setCount] = useState(0);
+
+  const countUp = () => {
+    setCount((prevCount) => prevCount + 1);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>{count}</h1>
+      <button size='20px' onClick={countUp}>+</button>
+      <h1>Hello React</h1>
+    </>
   );
 }
 
