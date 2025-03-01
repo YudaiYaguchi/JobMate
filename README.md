@@ -8,6 +8,9 @@ React: docker compose exec frontend npm start
 Rails: localhost:3001
 React: localhost:3000
 
+### Bash
+docker compose exec frontend bash
+
 ### コントローラーの作り方
 docker compose exec backend bash
 

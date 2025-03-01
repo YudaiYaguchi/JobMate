@@ -9,10 +9,14 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/node": "^22.13.8",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "framer-motion": "^4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-scripts": "5.0.1",
+    "typescript": "^5.8.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -40,6 +44,8 @@
     ]
   },
   "devDependencies": {
-    "@chakra-ui/icons": "^2.2.4"
+    "@chakra-ui/icons": "^2.2.4",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@typescript-eslint/parser": "^8.25.0"
   }
 }

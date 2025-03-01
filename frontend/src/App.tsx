@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Heading, VStack } from '@chakra-ui/react';
-
+import Top  from'./Top/Top'
 
 const  App = () => {
   useEffect(() => {
@@ -23,6 +23,7 @@ const  App = () => {
       <Button bg="blue" onClick={countUp}>ボタン</Button>
       <h1>Hello React</h1>
       </VStack>
+      <Top></Top>
     </>
   );
 }

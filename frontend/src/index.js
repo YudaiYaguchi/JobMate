@@ -1,17 +1,19 @@
+// src/index.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { ChakraProvider , defaultSystem } from '@chakra-ui/react';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <ChakraProvider  value={defaultSystem}>
-      <App />
-    </ChakraProvider>
-  </React.StrictMode>
-);
-
-reportWebVitals();
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
+    <React.StrictMode>
+      <ChakraProvider value={defaultSystem}>
+        <App />
+      </ChakraProvider>
+    </React.StrictMode>
+  );
+} else {
+  console.error("Root element not found");
+}
