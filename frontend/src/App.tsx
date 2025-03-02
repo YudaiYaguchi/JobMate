@@ -1,30 +1,17 @@
-import { useEffect, useState } from 'react';
-import { Button, Heading, VStack } from '@chakra-ui/react';
-import Top  from'./Top/Top'
+// src/App.tsx
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Top from './pages/top/Top';
+import User from './pages/user/User';
 
-const  App = () => {
-  useEffect(() => {
-    fetch('http://localhost:3001/api/user/index')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-  }, []);
-
-  const [count,setCount] = useState(0);
-
-  const countUp = () => {
-    setCount((prevCount) => prevCount + 1);
-  };
-
+function App() {
   return (
-    <>
-      <VStack>
-        <Heading>{count}</Heading>
-      <Button bg="blue" onClick={countUp}>ボタン</Button>
-      <h1>Hello React</h1>
-      </VStack>
-      <Top></Top>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Top />} />
+        <Route path="/home" element={<User />} />  
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -23,3 +23,6 @@ docker compose run backend bash -c "mkdir -p log && touch log/development.log"
 docker compose exec frontend npm install
 ```
 
+### 本番環境にリリース
+cors.rbのURLを修正しないとリリースできない
+バックエンドと通信できない
