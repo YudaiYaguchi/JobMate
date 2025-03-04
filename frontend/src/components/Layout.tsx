@@ -46,6 +46,7 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
               gap={5}
               borderBottom="2px solid #ddd"
               mx="auto"
+              fontFamily="bold"
             >
               <Link href="/home" textDecoration="none" color="blue.500" _hover={{ textDecoration: "underline" }}>
                 ホーム
