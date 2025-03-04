@@ -1,13 +1,16 @@
-import { Heading } from "@chakra-ui/react";
-import { useEffect,useState,FC } from "react";
+import { useEffect, useState, FC } from "react";
 import { getUserData } from "../../services/userApi";
-import { User as IUser} from "@/types/Index";
+import { User as IUser } from "@/types/Index";
+import CompaniesTable from "./CompaniesTable";
+import { companyList } from "./companyList";
+import { Text } from "@chakra-ui/react";
 
-type UserProps = {
+type HomeProps = {
   setUserName: (name: string) => void; // 関数の型を定義
 };
 
-const User:FC<UserProps> = (props) => {
+
+const Home: FC<HomeProps> = (props) => {
   useEffect(() => {
     // コンポーネントがマウントされたらユーザーデータを取得
     const fetchUserData = async () => {
@@ -22,7 +25,7 @@ const User:FC<UserProps> = (props) => {
     };
 
     fetchUserData(); // 関数呼び出し
-    
+
     props.setUserName('Yudai Yaguchi');
   }, []);
 
@@ -35,12 +38,10 @@ const User:FC<UserProps> = (props) => {
 
   return (
     <>
-    <div>
-      <h1>User Data</h1>
-      <pre>{JSON.stringify(userData, null, 2)}</pre>
-    </div>
+      <Text fontWeight='bold' fontSize="20px" p="0 5%">選考中の企業</Text>
+      <CompaniesTable companyList={companyList} />
     </>
   );
 }
 
-export default User;  
+export default Home;  
