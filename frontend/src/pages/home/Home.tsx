@@ -1,8 +1,13 @@
 import { Heading } from "@chakra-ui/react";
-import { useEffect,useState } from "react";
+import { useEffect,useState,FC } from "react";
 import { getUserData } from "../../services/userApi";
+import { User as IUser} from "@/types/Index";
 
-const User  = () => {
+type UserProps = {
+  setUserName: (name: string) => void; // 関数の型を定義
+};
+
+const User:FC<UserProps> = (props) => {
   useEffect(() => {
     // コンポーネントがマウントされたらユーザーデータを取得
     const fetchUserData = async () => {
@@ -17,9 +22,11 @@ const User  = () => {
     };
 
     fetchUserData(); // 関数呼び出し
+    
+    props.setUserName('Yudai Yaguchi');
   }, []);
 
-  const [userData, setUserData] = useState<any>(null); // ユーザーデータの状態
+  const [userData, setUserData] = useState<IUser | null>(null); // ユーザーデータの状態
   const [loading, setLoading] = useState(true); // ローディング状態
   const [error, setError] = useState<string>("");
 
@@ -27,10 +34,12 @@ const User  = () => {
   if (error) return <div>{error}</div>;
 
   return (
+    <>
     <div>
       <h1>User Data</h1>
       <pre>{JSON.stringify(userData, null, 2)}</pre>
     </div>
+    </>
   );
 }
 

@@ -22,3 +22,8 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+### DBを更新した場合
+1.frontend/src/typesに型の定義をする
+2.frontend/src/types/index.tsでexportする

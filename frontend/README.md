@@ -70,18 +70,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 
-### 初期セットアップ
+### React Icon
 
-https://keita1899.hatenablog.com/entry/2024/12/13/095146
-
-
-docker compose up
-docker compose exec backend rails db:create
-rails: docker compose exec backend rails s -b '0.0.0.0'
-react: docker compose exec frontend npm start
-
-rails: localhost:3000
-react: localhost:8000
-
-### コントローラーの作り方
-docker compose exec backend bash
+```bash
+https://react-icons.github.io/react-icons
+```
