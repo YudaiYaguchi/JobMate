@@ -35,7 +35,7 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
         </Flex>
         {userName && (
           <>
-            <Box px={4} py={2}>
+            <Box px={4} py={2} textAlign="end" >
               <Text>ログインユーザー： {userName}</Text>
             </Box>
 
@@ -55,7 +55,7 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
                 ESまとめ
               </Link>
               <Link href="/interview-questions" textDecoration="none" color="blue.500" _hover={{ textDecoration: "underline" }}>
-                面接の質問まとめ
+                面接質問まとめ
               </Link>
             </Flex>
           </>
