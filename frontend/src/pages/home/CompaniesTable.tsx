@@ -1,5 +1,5 @@
 import { Button, HStack, Table, Thead, Tbody, Tr, Th, Td, VStack, Text } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, use, useState } from "react";
 import AddCompany from "./AddCompany";
 import { Company } from "@/types/Company";
 import { FaRegEdit } from "react-icons/fa";
@@ -9,6 +9,16 @@ type CompaniesTableProps = {
 };
 
 const CompaniesTable: FC<CompaniesTableProps> = (props) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const focusCompanyInfo = () => {
+    setIsHovered(true);
+  };
+
+  const resetCompanyInfo = () => {
+    setIsHovered(false);
+  };
+
   return (
     <VStack p="10px 5%" w="100%">
       <Table size="sm" variant="simple" border="2px solid #ddd" >
@@ -33,10 +43,10 @@ const CompaniesTable: FC<CompaniesTableProps> = (props) => {
         </Thead>
         <Tbody>
           {props.companyList.map((company) => (
-            <Tr key={company.name} fontFamily="sans-serif" fontStyle="normal" fontWeight="normal">
+            <Tr key={company.name} fontFamily="sans-serif" fontStyle="normal" fontWeight="normal" _hover={{ backgroundColor: isHovered ? "gray.100" : "transparent" }}>
               <Td textAlign="left" p="8px" w="30%" border="1px solid #ddd">
                 <HStack>
-                  <Button variant="ghost" p="0px 8px">
+                  <Button variant="ghost" p="0px 8px" onMouseEnter={focusCompanyInfo} onMouseLeave={resetCompanyInfo} _hover={{ color: "red" }}>
                     <FaRegEdit size="1rem" />
                   </Button>
                   <Text>{company.name}</Text>
