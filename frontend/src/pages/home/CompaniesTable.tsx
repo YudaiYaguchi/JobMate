@@ -10,7 +10,7 @@ type CompaniesTableProps = {
 
 const CompaniesTable: FC<CompaniesTableProps> = (props) => {
   return (
-    <VStack p="20px 5%" w="100%">
+    <VStack p="10px 5%" w="100%">
       <Table size="sm" variant="simple" border="2px solid #ddd" >
         <Thead bg="gray.100">
           <Tr>
@@ -31,8 +31,6 @@ const CompaniesTable: FC<CompaniesTableProps> = (props) => {
             </Th>
           </Tr>
         </Thead>
-
-        {/* 本文 */}
         <Tbody>
           {props.companyList.map((company) => (
             <Tr key={company.name} fontFamily="sans-serif" fontStyle="normal" fontWeight="normal">

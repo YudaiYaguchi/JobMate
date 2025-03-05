@@ -3,7 +3,9 @@ import { getUserData } from "../../services/userApi";
 import { User as IUser } from "@/types/Index";
 import CompaniesTable from "./CompaniesTable";
 import { companyList } from "./companyList";
-import { Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
+import QuestionTable from "./QuestionTable";
+import { questionList } from "./questionList";
 
 type HomeProps = {
   setUserName: (name: string) => void; // 関数の型を定義
@@ -38,8 +40,10 @@ const Home: FC<HomeProps> = (props) => {
 
   return (
     <>
-      <Text fontWeight='bold' fontSize="20px" p="0 5%" pb="0px">選考中の企業</Text>
+      <Text fontWeight='bold' fontSize="20px" p="20px 5%" pb="0px">選考中の企業</Text>
       <CompaniesTable companyList={companyList} />
+      <Text fontWeight='bold' fontSize="20px" p="20px 5%" pb="0px">直近の質問</Text>
+      <QuestionTable questionList={questionList} />
     </>
   );
 }

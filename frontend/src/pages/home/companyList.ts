@@ -1,4 +1,6 @@
-export const companyList = [
+import { Company } from "@/types/Company";
+
+export const companyList: Company[] = [
   {
     name: "Sky株式会社",
     selectionType: "本選考",
