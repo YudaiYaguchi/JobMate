@@ -1,65 +1,67 @@
-import { Button, HStack, Table, VStack } from "@chakra-ui/react"
+import { Button, HStack, Table, Thead, Tbody, Tr, Th, Td, VStack, Text } from "@chakra-ui/react";
 import { FC } from "react";
-import AddCompany from "./AddCompny";
+import AddCompany from "./AddCompany";
 import { Company } from "@/types/Company";
 import { FaRegEdit } from "react-icons/fa";
 
 type CompaniesTableProps = {
   companyList: Company[];
-}
+};
 
 const CompaniesTable: FC<CompaniesTableProps> = (props) => {
   return (
-    <VStack p="20px 5%">
-      <Table.Root size="sm" variant="outline">
-        <Table.Header>
-          <Table.Row >
-            <Table.ColumnHeader textAlign="center" borderRight="1px solid #ddd" fontWeight="bold">
+    <VStack p="20px 5%" w="100%">
+      <Table size="sm" variant="simple" border="2px solid #ddd" >
+        <Thead bg="gray.100">
+          <Tr>
+            <Th textAlign="center" border="1px solid #ddd" fontSize="15px" fontWeight="bold">
               企業名
-            </Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center" borderRight="1px solid #ddd" fontWeight="bold">
+            </Th>
+            <Th textAlign="center" border="1px solid #ddd" fontSize="15px" fontWeight="bold">
               選考種類
-            </Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center" borderRight="1px solid #ddd" fontWeight="bold">
+            </Th>
+            <Th textAlign="center" border="1px solid #ddd" fontSize="15px" fontWeight="bold">
               選考状況
-            </Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center" borderRight="1px solid #ddd" fontWeight="bold">
+            </Th>
+            <Th textAlign="center" border="1px solid #ddd" fontSize="15px" fontWeight="bold">
               選考日
-            </Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center" fontWeight="bold">
+            </Th>
+            <Th textAlign="center" border="1px solid #ddd" fontSize="15px" fontWeight="bold">
               選考結果
-            </Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+            </Th>
+          </Tr>
+        </Thead>
+
+        {/* 本文 */}
+        <Tbody>
           {props.companyList.map((company) => (
-            <Table.Row key={company.name} fontFamily="serif" fontStyle="normal" fontWeight="normal">
-              <Table.Cell textAlign="left" p="2px 8px" w="20%" borderRight="1px solid #ddd">
-                <HStack >
+            <Tr key={company.name} fontFamily="sans-serif" fontStyle="normal" fontWeight="normal">
+              <Td textAlign="left" p="8px" w="30%" border="1px solid #ddd">
+                <HStack>
                   <Button variant="ghost" p="0px 8px">
                     <FaRegEdit size="1rem" />
-                  </ Button>
-                  {company.name}
+                  </Button>
+                  <Text>{company.name}</Text>
                 </HStack>
-              </Table.Cell>
-              <Table.Cell textAlign="center" w="20%" borderRight="1px solid #ddd">
+              </Td>
+              <Td textAlign="center" w="15%" border="1px solid #ddd">
                 {company.selectionType}
-              </Table.Cell>
-              <Table.Cell textAlign="center" w="20%" borderRight="1px solid #ddd">
+              </Td>
+              <Td textAlign="center" w="15%" border="1px solid #ddd">
                 {company.selectionStatus}
-              </Table.Cell>
-              <Table.Cell textAlign="center" w="20%" borderRight="1px solid #ddd">
+              </Td>
+              <Td textAlign="center" w="25%" border="1px solid #ddd">
                 {company.selectionDate}
-              </Table.Cell>
-              <Table.Cell textAlign="center">
+              </Td>
+              <Td textAlign="center" border="1px solid #ddd">
                 {company.selectionResult}
-              </Table.Cell>
-            </Table.Row>
+              </Td>
+            </Tr>
           ))}
           <AddCompany />
-        </Table.Body>
-      </Table.Root>
-    </VStack >
+        </Tbody>
+      </Table>
+    </VStack>
   );
 };
 

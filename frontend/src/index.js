@@ -9,7 +9,7 @@ if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-      <ChakraProvider value={defaultSystem}>
+      <ChakraProvider>
         <App />
       </ChakraProvider>
     </React.StrictMode>

@@ -38,7 +38,7 @@ const Home: FC<HomeProps> = (props) => {
 
   return (
     <>
-      <Text fontWeight='bold' fontSize="20px" p="0 5%">選考中の企業</Text>
+      <Text fontWeight='bold' fontSize="20px" p="0 5%" pb="0px">選考中の企業</Text>
       <CompaniesTable companyList={companyList} />
     </>
   );
