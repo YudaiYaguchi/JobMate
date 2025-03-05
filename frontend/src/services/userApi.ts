@@ -12,8 +12,8 @@ const apiAxios = axios.create({
 // ユーザー情報を取得する関数
 export const getUserData = async () => {
   try {
-    const response = await apiAxios.get("user/index");
-    return response.data;
+    const res = await apiAxios.get("users/index");
+    return res.data;
   } catch (error) {
     console.error("Error fetching user data:", error);
     throw error;

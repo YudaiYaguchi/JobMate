@@ -22,14 +22,12 @@ type AddCompanyModalProps = {
 };
 
 const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
-  // 各項目の状態を管理
   const [companyName, setCompanyName] = useState("");
   const [selectionType, setSelectionType] = useState("");
   const [selectionStatus, setSelectionStatus] = useState("");
   const [selectionDate, setSelectionDate] = useState("");
   const [selectionResult, setSelectionResult] = useState("");
 
-  // フォーム送信時の処理
   const handleSubmit = () => {
     const formData = {
       companyName,

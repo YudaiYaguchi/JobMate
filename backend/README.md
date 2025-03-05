@@ -27,3 +27,9 @@ Things you may want to cover:
 ### DBを更新した場合
 1.frontend/src/typesに型の定義をする
 2.frontend/src/types/index.tsでexportする
+
+
+### controller
+```bash
+  rails generate controller api/v1/users （例
+```

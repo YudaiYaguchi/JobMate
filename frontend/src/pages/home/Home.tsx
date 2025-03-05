@@ -18,6 +18,7 @@ const Home: FC<HomeProps> = (props) => {
     const fetchUserData = async () => {
       try {
         const data = await getUserData();
+        console.log(data);
         setUserData(data); // データをステートに保存
       } catch (err) {
         setError("Failed to fetch user data");
