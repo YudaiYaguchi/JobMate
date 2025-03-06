@@ -7,7 +7,7 @@ export const selectionTypeList = [
 export const selectionStatusList = [
   "面談",
   "説明会",
-  "書類選考",
+  "ES(エントリーシート)",
   "WEBテスト",
   "１次面接",
   "２次面接",
