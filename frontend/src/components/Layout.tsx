@@ -33,13 +33,12 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
             </>
           )
           }
+          <HStack position='absolute' right='0px' padding='12px' >
+            <FaUser /><Text>{userName}</Text>
+          </HStack>
         </Flex>
         {userName && (
           <>
-            <HStack px={4} py={2} justifyContent="end"  >
-              <FaUser /><Text>{userName}</Text>
-            </HStack>
-
             <Flex
               justify="center"
               w="60%"
