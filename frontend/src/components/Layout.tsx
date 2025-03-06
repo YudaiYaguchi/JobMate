@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Box, Button, Flex, Heading, HStack, Link, Text, Image } from "@chakra-ui/react";
 import { Outlet } from 'react-router-dom';
+import { FaUser } from "react-icons/fa";
 
 type LayoutProps = {
   userName?: string;
@@ -35,9 +36,9 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
         </Flex>
         {userName && (
           <>
-            <Box px={4} py={2} textAlign="end" >
-              <Text>ログインユーザー： {userName}</Text>
-            </Box>
+            <HStack px={4} py={2} justifyContent="end"  >
+              <FaUser /><Text>{userName}</Text>
+            </HStack>
 
             <Flex
               justify="center"
