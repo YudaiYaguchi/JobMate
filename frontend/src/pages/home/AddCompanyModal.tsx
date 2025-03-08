@@ -12,9 +12,11 @@ import {
   Input,
   HStack,
   Select,
+  Text
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { selectionTypeList, selectionStatusList, selectionResultList } from "./selectionOptions";
+import { FaBuilding } from "react-icons/fa";
 
 type AddCompanyModalProps = {
   isOpen: boolean;
@@ -43,7 +45,12 @@ const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
     <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>新規企業を登録</ModalHeader>
+        <ModalHeader>
+          <HStack>
+            <FaBuilding />
+            <Text>新規企業を登録</Text>
+          </HStack>
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {/* 企業名 */}
