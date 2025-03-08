@@ -2,6 +2,8 @@ import { FC } from "react";
 import { Box, Button, Flex, Heading, HStack, Link, Text, Image } from "@chakra-ui/react";
 import { Outlet } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
+import { IoHomeOutline } from "react-icons/io5";
+import { FaBell } from "react-icons/fa";
 
 type LayoutProps = {
   userName?: string;
@@ -17,13 +19,13 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
           py={4}
           px={4}
         >
-          <Heading as="h1" color="white" fontFamily="Oswald, sans-serif" fontSize='2xl' fontWeight="700" pl={6}>
+          <Heading as="h1" color="white" fontFamily="Oswald, sans-serif" fontSize='2xl' fontWeight="700" cursor="pointer" pl={6}>
             就活管理 ~JobMate~
           </Heading>
           {!userName && (
             <>
               <HStack position='absolute' right='0px' padding='8px'>
-                <Button bg='none' border='none'>
+                <Button bg='none' border='none' color="white">
                   ログイン
                 </Button>
                 <Button bg='white' color='blue'>
@@ -33,9 +35,14 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
             </>
           )
           }
-          <HStack position='absolute' right='0px' padding='12px' >
-            <FaUser /><Text>{userName}</Text>
-          </HStack>
+          {userName && (
+            <HStack position='absolute' right='0px' padding='12px' gap="12px" >
+              <FaBell cursor="pointer" />
+              <HStack>
+                <FaUser /><Text>{userName}</Text>
+              </HStack>
+            </HStack>
+          )}
         </Flex>
         {userName && (
           <>
@@ -49,7 +56,7 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
               fontFamily="bold"
             >
               <Link href="/home" textDecoration="none" color="blue.500" _hover={{ textDecoration: "underline" }}>
-                ホーム
+                <IoHomeOutline />
               </Link>
               <Link href="/all-es" textDecoration="none" color="blue.500" _hover={{ textDecoration: "underline" }}>
                 ESまとめ
@@ -60,7 +67,7 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
             </Flex>
           </>
         )}
-      </Box>
+      </Box >
 
       <Outlet /> {/*ここの部分が変わる*/}
 
