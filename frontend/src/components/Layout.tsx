@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Box, Button, Flex, Heading, HStack, Link, Text, Image } from "@chakra-ui/react";
-import { Outlet } from 'react-router-dom';
+import { Box, Button, Flex, Heading, HStack, Text, Link as ChakraLink } from "@chakra-ui/react";
+import { Outlet, Link } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { FaBell } from "react-icons/fa";
@@ -19,9 +19,11 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
           py={4}
           px={4}
         >
-          <Heading as="h1" color="white" fontFamily="Oswald, sans-serif" fontSize='2xl' fontWeight="700" cursor="pointer" pl={6}>
-            就活管理 ~JobMate~
-          </Heading>
+          <Link to="/home">
+            <Heading as="h1" color="white" fontFamily="Oswald, sans-serif" fontSize='2xl' fontWeight="700" cursor="pointer" pl={6}>
+              就活管理 ~JobMate~
+            </Heading>
+          </Link>
           {!userName && (
             <>
               <HStack position='absolute' right='0px' padding='8px'>
@@ -55,14 +57,40 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
               mx="auto"
               fontFamily="bold"
             >
-              <Link href="/home" textDecoration="none" color="blue.500" _hover={{ textDecoration: "underline" }}>
-                <IoHomeOutline />
+              <Link to="/home">
+                <ChakraLink
+                  textDecoration="none"
+                  color="blue.500"
+                  _hover={{ textDecoration: "underline" }}
+                  display="flex"
+                  alignItems="center"
+                >
+                  <IoHomeOutline />
+                </ChakraLink>
               </Link>
-              <Link href="/all-es" textDecoration="none" color="blue.500" _hover={{ textDecoration: "underline" }}>
-                ESまとめ
+
+              <Link to="/all-es">
+                <ChakraLink
+                  textDecoration="none"
+                  color="blue.500"
+                  _hover={{ textDecoration: "underline" }}
+                  display="flex"
+                  alignItems="center"
+                >
+                  ESまとめ
+                </ChakraLink>
               </Link>
-              <Link href="/interview-questions" textDecoration="none" color="blue.500" _hover={{ textDecoration: "underline" }}>
-                面接質問まとめ
+
+              <Link to="/interview-questions">
+                <ChakraLink
+                  textDecoration="none"
+                  color="blue.500"
+                  _hover={{ textDecoration: "underline" }}
+                  display="flex"
+                  alignItems="center"
+                >
+                  面接質問まとめ
+                </ChakraLink>
               </Link>
             </Flex>
           </>
