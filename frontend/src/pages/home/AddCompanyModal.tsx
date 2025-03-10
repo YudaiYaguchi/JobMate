@@ -54,6 +54,7 @@ const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("送信データ:", data);
+    onClose();
   };
 
   return (
