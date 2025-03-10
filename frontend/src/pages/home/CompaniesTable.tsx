@@ -34,11 +34,11 @@ const CompaniesTable: FC<CompaniesTableProps> = (props) => {
           </Thead>
           <Tbody>
             {props.companyList.map((company) => (
-              <Tr key={company.id} fontFamily="sans-serif" fontStyle="normal" fontWeight="normal" _hover={{ backgroundColor: isHovered ? "gray.100" : "transparent" }}>
+              <Tr key={company.id} fontFamily="sans-serif" fontStyle="normal" fontWeight="normal" _hover={{ backgroundColor: isHovered ? "gray.200" : "transparent" }}>
                 <Td textAlign="left" pb="0px" pt="0px" w="30%" border="1px solid #ddd">
                   <HStack>
                     <Tooltip hasArrow label="編集" bg="gray.300" color="black">
-                      <Button variant="ghost" p="0px 8px" onMouseEnter={focusCompanyInfo} onMouseLeave={resetCompanyInfo} _hover={{ color: "red" }}>
+                      <Button variant="ghost" p="0px 8px" onMouseEnter={focusCompanyInfo} onMouseLeave={resetCompanyInfo} _hover={{ color: "blue" }}>
                         <FaRegEdit size="1rem" />
                       </Button>
                     </Tooltip>
