@@ -7,16 +7,16 @@ class Api::V1::CompaniesController < ApplicationController
 
   def create
     @user = User.find(1)
-    @company = @user.companies.new(company_params)
+    company_data = params.require(:company).permit(:name, :selection_type, :selection_status, :selection_date, :selection_result)
+    company_data[:selection_date] = company_data[:selection_date]&.gsub("T", " ")
+
+    company_data.each do |key, value|
+      company_data[key] = "-" if value.blank?
+    end
     
+    @company = @user.companies.new(company_data)
     unless @company.save
       render json: @company.errors, status: :unprocessable_entity
     end
-  end
-
-  private
-
-  def company_params
-    params.require(:company).permit(:name, :selection_type, :selection_status, :selection_date, :selection_result)
   end
 end
