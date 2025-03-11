@@ -1,17 +1,15 @@
 class Api::V1::CompaniesController < ApplicationController
   def index
-    @user = User.find(params[:user_id])
+    @user = User.find(1)
     @companies = @user.companies
     render json: @companies
   end
 
   def create
-    @user = User.find(params[:user_id])
+    @user = User.find(1)
     @company = @user.companies.new(company_params)
-
-    if @company.save
-      render json: @company, status: :created
-    else
+    
+    unless @company.save
       render json: @company.errors, status: :unprocessable_entity
     end
   end
@@ -19,6 +17,6 @@ class Api::V1::CompaniesController < ApplicationController
   private
 
   def company_params
-    params.require(:company).permit(:name, :location)
+    params.require(:company).permit(:name, :selection_type, :selection_status, :selection_date, :selection_result)
   end
 end

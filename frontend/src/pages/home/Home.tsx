@@ -1,13 +1,13 @@
 import { useEffect, useState, FC } from "react";
 import { getUserData } from "../../services/userApi";
-import { User as IUser } from "@/types/Index";
+import { Company, User as IUser } from "@/types/Index";
 import CompaniesTable from "./CompaniesTable";
-import { companyList } from "./companyList";
 import { HStack, Text } from "@chakra-ui/react";
 import QuestionTable from "./QuestionTable";
 import { questionList } from "./questionList";
 import { FaBuilding } from "react-icons/fa";
 import { FaQuestionCircle } from "react-icons/fa";
+import { getCompany } from "../../services/companyApi";
 
 type HomeProps = {
   setUserName: (name: string) => void; // 関数の型を定義
@@ -15,28 +15,39 @@ type HomeProps = {
 
 
 const Home: FC<HomeProps> = (props) => {
+  const [companyList, setCompanyList] = useState<Company[]>([]);
+  const [userData, setUserData] = useState<IUser | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
+
   useEffect(() => {
-    // コンポーネントがマウントされたらユーザーデータを取得
     const fetchUserData = async () => {
       try {
         const data = await getUserData();
-        console.log(data);
-        setUserData(data); // データをステートに保存
-      } catch (err) {
+        setUserData(data);
+      } catch (error) {
         setError("Failed to fetch user data");
       } finally {
-        setLoading(false); // ローディング完了
+        setLoading(false);
       }
     };
 
-    fetchUserData(); // 関数呼び出し
+    fetchUserData();
+
+    const fetchCompanyData = async () => {
+      try {
+        const data = await getCompany();
+        setCompanyList(data);
+      } catch (error) {
+        setError("Failed to fetch company data");
+      }
+    };
+
+    fetchCompanyData();
 
     props.setUserName('Yudai Yaguchi');
   }, []);
 
-  const [userData, setUserData] = useState<IUser | null>(null); // ユーザーデータの状態
-  const [loading, setLoading] = useState(true); // ローディング状態
-  const [error, setError] = useState<string>("");
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;

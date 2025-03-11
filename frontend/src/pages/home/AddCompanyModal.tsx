@@ -20,6 +20,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { string, z } from "zod";
 import { selectionTypeList, selectionStatusList, selectionResultList } from "./selectionOptions";
+import { createCompany } from "../../services/companyApi";
 
 type AddCompanyModalProps = {
   isOpen: boolean;
@@ -27,11 +28,11 @@ type AddCompanyModalProps = {
 };
 
 const schema = z.object({
-  companyName: z.string().min(1, "企業名を入力してください"),
-  selectionType: string(),
-  selectionStatus: string(),
-  selectionDate: string(),
-  selectionResult: string(),
+  name: z.string().min(1, "企業名を入力してください"),
+  selection_type: string(),
+  selection_status: string(),
+  selection_date: string(),
+  selection_result: string(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -44,16 +45,16 @@ const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      companyName: "",
-      selectionType: "",
-      selectionStatus: "",
-      selectionDate: "",
-      selectionResult: "",
+      name: "",
+      selection_type: "",
+      selection_status: "",
+      selection_date: "",
+      selection_result: "",
     },
   });
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log("送信データ:", data);
+    createCompany(data);
     onClose();
   };
 
@@ -71,28 +72,28 @@ const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
         <ModalBody>
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* 企業名 */}
-            <FormControl isRequired isInvalid={!!errors.companyName} p="3%">
+            <FormControl isRequired isInvalid={!!errors.name} p="3%">
               <HStack spacing={4} align="center">
                 <FormLabel minW="100px" m="0">
                   企業名
                 </FormLabel>
                 <Controller
-                  name="companyName"
+                  name="name"
                   control={control}
                   render={({ field }) => <Input placeholder="○○○株式会社" flex="1" {...field} />}
                 />
               </HStack>
-              <FormErrorMessage>{errors.companyName?.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
             </FormControl>
 
             {/* 選考種類 */}
-            <FormControl isInvalid={!!errors.selectionType} p="3%">
+            <FormControl isInvalid={!!errors.selection_type} p="3%">
               <HStack spacing={4} align="center">
                 <FormLabel minW="100px" m="0">
                   選考種類
                 </FormLabel>
                 <Controller
-                  name="selectionType"
+                  name="selection_type"
                   control={control}
                   render={({ field }) => (
                     <Select placeholder="選択してください" flex="1" {...field}>
@@ -108,13 +109,13 @@ const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
             </FormControl>
 
             {/* 選考状況 */}
-            <FormControl isInvalid={!!errors.selectionStatus} p="3%">
+            <FormControl isInvalid={!!errors.selection_status} p="3%">
               <HStack spacing={4} align="center">
                 <FormLabel minW="100px" m="0">
                   選考状況
                 </FormLabel>
                 <Controller
-                  name="selectionStatus"
+                  name="selection_status"
                   control={control}
                   render={({ field }) => (
                     <Select placeholder="選択してください" flex="1" {...field}>
@@ -130,13 +131,13 @@ const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
             </FormControl>
 
             {/* 選考日付 */}
-            <FormControl isInvalid={!!errors.selectionDate} p="3%">
+            <FormControl isInvalid={!!errors.selection_date} p="3%">
               <HStack spacing={4} align="center">
                 <FormLabel minW="100px" m="0">
                   選考日付
                 </FormLabel>
                 <Controller
-                  name="selectionDate"
+                  name="selection_date"
                   control={control}
                   render={({ field }) => <Input type="datetime-local" flex="1" step="300" {...field} />}
                 />
@@ -144,13 +145,13 @@ const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
             </FormControl>
 
             {/* 選考結果 */}
-            <FormControl isInvalid={!!errors.selectionResult} p="3%">
+            <FormControl isInvalid={!!errors.selection_result} p="3%">
               <HStack spacing={4} align="center">
                 <FormLabel minW="100px" m="0">
                   選考結果
                 </FormLabel>
                 <Controller
-                  name="selectionResult"
+                  name="selection_result"
                   control={control}
                   render={({ field }) => (
                     <Select placeholder="選択してください" flex="1" {...field}>

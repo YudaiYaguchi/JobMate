@@ -1,8 +1,9 @@
-import { Company } from "@/types/Company";
+import { Company } from "../../types/Company";
 import { Button, HStack, Table, Thead, Tbody, Tr, Th, Td, VStack, Text, Tooltip, TableContainer } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import AddCompany from "./AddCompany";
 import { FaRegEdit } from "react-icons/fa";
+import { getCompany } from "../../services/companyApi";
 
 type CompaniesTableProps = {
   companyList: Company[];
@@ -45,10 +46,10 @@ const CompaniesTable: FC<CompaniesTableProps> = (props) => {
                     <Text>{company.name}</Text>
                   </HStack>
                 </Td>
-                <Td textAlign="center" w="15%" border="1px solid #ddd">{company.selectionType}</Td>
-                <Td textAlign="center" w="15%" border="1px solid #ddd">{company.selectionStatus}</Td>
-                <Td textAlign="center" w="25%" border="1px solid #ddd">{company.selectionDate}</Td>
-                <Td textAlign="center" border="1px solid #ddd">{company.selectionResult}</Td>
+                <Td textAlign="center" w="15%" border="1px solid #ddd">{company.selection_type}</Td>
+                <Td textAlign="center" w="15%" border="1px solid #ddd">{company.selection_status}</Td>
+                <Td textAlign="center" w="25%" border="1px solid #ddd">{company.selection_date}</Td>
+                <Td textAlign="center" border="1px solid #ddd">{company.selection_result}</Td>
               </Tr>
             ))}
           </Tbody>
