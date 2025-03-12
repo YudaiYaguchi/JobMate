@@ -1,24 +1,15 @@
 import { Company } from "../../types/Company";
-import { Button, HStack, Table, Thead, Tbody, Tr, Th, Td, VStack, Text, Tooltip, TableContainer } from "@chakra-ui/react";
-import { FC, useEffect, useState } from "react";
+import { Table, Thead, Tbody, Tr, Th, VStack, TableContainer } from "@chakra-ui/react";
+import { FC } from "react";
 import AddCompany from "./AddCompany";
-import { FaRegEdit } from "react-icons/fa";
-import { getCompany } from "../../services/companyApi";
+import CompanyListItem from "./CompanyListItem";
+
 
 type CompaniesTableProps = {
   companyList: Company[];
 };
 
 const CompaniesTable: FC<CompaniesTableProps> = (props) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const focusCompanyInfo = () => {
-    setIsHovered(true);
-  };
-
-  const resetCompanyInfo = () => {
-    setIsHovered(false);
-  };
 
   return (
     <VStack p="10px 5%" gap="0" w="full">
@@ -35,22 +26,7 @@ const CompaniesTable: FC<CompaniesTableProps> = (props) => {
           </Thead>
           <Tbody>
             {props.companyList.map((company) => (
-              <Tr key={company.id} fontFamily="sans-serif" fontStyle="normal" fontWeight="normal" _hover={{ backgroundColor: isHovered ? "gray.200" : "transparent" }}>
-                <Td textAlign="left" pb="0px" pt="0px" w="30%" border="1px solid #ddd">
-                  <HStack>
-                    <Tooltip hasArrow label="編集" bg="gray.300" color="black">
-                      <Button variant="ghost" p="0px 8px" onMouseEnter={focusCompanyInfo} onMouseLeave={resetCompanyInfo} _hover={{ color: "blue" }}>
-                        <FaRegEdit size="1rem" />
-                      </Button>
-                    </Tooltip>
-                    <Text>{company.name}</Text>
-                  </HStack>
-                </Td>
-                <Td textAlign="center" w="15%" border="1px solid #ddd">{company.selection_type}</Td>
-                <Td textAlign="center" w="15%" border="1px solid #ddd">{company.selection_status}</Td>
-                <Td textAlign="center" w="25%" border="1px solid #ddd">{company.selection_date}</Td>
-                <Td textAlign="center" border="1px solid #ddd">{company.selection_result}</Td>
-              </Tr>
+              <CompanyListItem key={company.id} company={company} />
             ))}
           </Tbody>
         </Table>
