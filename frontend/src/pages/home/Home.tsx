@@ -10,7 +10,7 @@ import { FaQuestionCircle } from "react-icons/fa";
 import { getCompany } from "../../services/companyApi";
 
 type HomeProps = {
-  setUserName: (name: string) => void; // 関数の型を定義
+  setUserName: (name: string) => void;
 };
 
 
