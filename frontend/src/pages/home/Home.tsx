@@ -13,7 +13,6 @@ type HomeProps = {
   setUserName: (name: string) => void;
 };
 
-
 const Home: FC<HomeProps> = (props) => {
   const [companyList, setCompanyList] = useState<Company[]>([]);
   const [userData, setUserData] = useState<IUser | null>(null);

@@ -8,11 +8,9 @@ const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <React.StrictMode>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </React.StrictMode>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   );
 } else {
   console.error("Root element not found");
