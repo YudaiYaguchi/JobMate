@@ -1,4 +1,4 @@
-import { FC, use, useState } from "react";
+import { FC, useState } from "react";
 import { Company } from "../../types/Company";
 import { Button, HStack, Tr, Td, Text, Tooltip, Select, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { FaRegEdit } from "react-icons/fa";
@@ -7,7 +7,7 @@ import { updateCompany } from "../../services/companyApi";
 
 type CompanyEditProps = {
   company: Company;
-  handleEditButton: () => void;
+  handleEditButton: (updatedData: Company) => void;
 };
 
 const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton }) => {
@@ -27,7 +27,7 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton }) => {
     return errorMessage === "";
   };
 
-  const handUpdate = () => {
+  const handUpdate = async () => {
     if (validate()) {
       const updatedData = {
         id: companyId,
@@ -37,8 +37,9 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton }) => {
         selection_date: selectionDate,
         selection_result: selectionResult,
       };
-      updateCompany(updatedData);
-      handleEditButton();
+      const res: Company = await updateCompany(updatedData);
+
+      handleEditButton(res);
     }
   };
 

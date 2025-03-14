@@ -3,6 +3,7 @@ import { Company } from "../../types/Company";
 import { Button, HStack, Tr, Td, Text, Tooltip, Select } from "@chakra-ui/react";
 import { FaRegEdit } from "react-icons/fa";
 import CompanyEdit from "./CompanyEdit";
+import CompaniesTable from "./CompaniesTable";
 
 type CompanyListItemProps = {
   company: Company;
@@ -11,6 +12,12 @@ type CompanyListItemProps = {
 const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [edit, setEdit] = useState(false)
+  const [name, setName] = useState(company.name);
+  const [selectionType, setSelectionType] = useState(company.selection_type);
+  const [selectionStatus, setSelectionStatus] = useState(company.selection_status);
+  const [selectionDate, setSelectionDate] = useState(company.selection_date);
+  const [selectionResult, setSelectionResult] = useState(company.selection_result);
+
   const focusCompanyInfo = () => {
     setIsHovered(true);
   };
@@ -19,17 +26,24 @@ const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
     setIsHovered(false);
   };
 
-  const handleEditButton = () => {
+  const handleEditButton = (updatedData: Company) => {
     setEdit((prevEdit) => !prevEdit);
+    setName(updatedData.name);
+    setSelectionType(updatedData.selection_type);
+    setSelectionStatus(updatedData.selection_status);
+    setSelectionDate(updatedData.selection_date);
+    setSelectionResult(updatedData.selection_result);
+    company.name = name;
+    company.selection_type = selectionType;
+    company.selection_status = selectionStatus;
+    company.selection_date = selectionDate;
+    company.selection_result = selectionResult;
   };
 
   if (edit) {
-    return (<CompanyEdit
-      company={company}
-      handleEditButton={handleEditButton}
-    />
+    return (
+      <CompanyEdit company={company} handleEditButton={handleEditButton} />
     );
-
   } else {
     return (
       <Tr
@@ -47,19 +61,19 @@ const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
                 p="0px 8px"
                 onMouseEnter={focusCompanyInfo}
                 onMouseLeave={resetCompanyInfo}
-                onClick={handleEditButton}
+                onClick={() => handleEditButton(company)}
                 _hover={{ color: "blue" }}
               >
                 <FaRegEdit size="1rem" />
               </Button>
             </Tooltip>
-            <Text>{company.name}</Text>
+            <Text>{name}</Text>
           </HStack>
         </Td>
-        <Td textAlign="center" w="15%" border="1px solid #ddd">{company.selection_type}</Td>
-        <Td textAlign="center" w="15%" border="1px solid #ddd">{company.selection_status}</Td>
-        <Td textAlign="center" w="20%" border="1px solid #ddd">{company.selection_date}</Td>
-        <Td textAlign="center" border="1px solid #ddd">{company.selection_result}</Td>
+        <Td textAlign="center" w="15%" border="1px solid #ddd">{selectionType}</Td>
+        <Td textAlign="center" w="15%" border="1px solid #ddd">{selectionStatus}</Td>
+        <Td textAlign="center" w="20%" border="1px solid #ddd">{selectionDate}</Td>
+        <Td textAlign="center" border="1px solid #ddd">{selectionResult}</Td>
       </Tr>
     );
   }
