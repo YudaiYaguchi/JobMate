@@ -27,7 +27,7 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton }) => {
     return errorMessage === "";
   };
 
-  const handUpdate = async () => {
+  const handleUpdateButton = async () => {
     if (validate()) {
       const updatedData = {
         id: companyId,
@@ -64,7 +64,7 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton }) => {
               p="0"
               fontSize="12px"
               variant="ghost"
-              onClick={handUpdate}
+              onClick={handleUpdateButton}
               color="blue"
               minW="20px"
             >
