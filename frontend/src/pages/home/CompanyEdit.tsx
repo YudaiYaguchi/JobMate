@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { Company } from "../../types/Company";
-import { Button, HStack, Tr, Td, Text, Tooltip, Select, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
+import { Button, HStack, Tr, Td, Select, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { selectionTypeList, selectionStatusList, selectionResultList } from "./selectionOptions";
 import { updateCompany } from "../../services/companyApi";
 import { deleteCompany } from "../../services/companyApi";
@@ -19,7 +19,6 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton, handleDe
   const [selectionDate, setSelectionDate] = useState(company.selection_date || "");
   const [selectionResult, setSelectionResult] = useState(company.selection_result || "");
   const [error, setError] = useState<string>("");
-  const [isDeleted, setIsDeleted] = useState(false);
 
   const validate = () => {
     let errorMessage = "";
@@ -52,154 +51,149 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton, handleDe
     );
     if (isConfirmed) {
       await deleteCompany(companyId);
-      setIsDeleted(isConfirmed)
       handleDeleteButton();
     }
   };
 
-  if (isDeleted) {
-    return
-  } else {
-    return (
-      <Tr fontFamily="sans-serif" fontStyle="normal" fontWeight="normal" bg="gray.200">
-        <Td textAlign="left" pb="0px" pt="0px" pl="2" w="30%" border="1px solid #ddd">
-          <HStack>
-            <HStack w="auto" gap="2">
-              <Button
-                w="20px"
-                minW="20px"
-                p="0"
-                variant="ghost"
-                borderRadius="0"
-                fontSize="12px"
-                onClick={handleDeleteConfirm}
-                color="red"
-              >
-                削除
-              </Button>
-              <Button
-                w="20px"
-                minW="20px"
-                p="0"
-                variant="ghost"
-                borderRadius="0"
-                fontSize="12px"
-                onClick={handleUpdateButton}
-                color="blue"
-              >
-                保存
-              </Button>
-            </HStack>
-
-            <FormControl isInvalid={!!error}>
-              <Input
-                p="0"
-                w="full"
-                h="full"
-                textAlign="left"
-                fontSize="inherit"
-                borderRadius="0"
-                borderColor="black"
-                _hover={{ borderColor: "blue" }}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="企業名を入力してください"
-              />
-              <FormErrorMessage>{error}</FormErrorMessage>
-            </FormControl>
+  return (
+    <Tr fontFamily="sans-serif" fontStyle="normal" fontWeight="normal" bg="gray.200">
+      <Td textAlign="left" pb="0px" pt="0px" pl="2" w="30%" border="1px solid #ddd">
+        <HStack>
+          <HStack w="auto" gap="2">
+            <Button
+              w="20px"
+              minW="20px"
+              p="0"
+              variant="ghost"
+              borderRadius="0"
+              fontSize="12px"
+              onClick={handleDeleteConfirm}
+              color="red"
+            >
+              削除
+            </Button>
+            <Button
+              w="20px"
+              minW="20px"
+              p="0"
+              variant="ghost"
+              borderRadius="0"
+              fontSize="12px"
+              onClick={handleUpdateButton}
+              color="blue"
+            >
+              保存
+            </Button>
           </HStack>
-        </Td>
 
-        {/* 選考タイプ */}
-        <Td textAlign="center" w="15%" border="1px solid #ddd" p="0 3px">
-          <Select
-            placeholder="選択してください"
-            p="0"
-            w="full"
-            h="full"
-            textAlign="center"
-            fontSize="inherit"
-            borderRadius="0"
-            borderColor="black"
-            _hover={{ borderColor: "blue" }}
-            value={selectionType}
-            onChange={(e) => setSelectionType(e.target.value)}
-          >
-            {selectionTypeList.map((type, index) => (
-              <option key={index} value={type}>
-                {type}
-              </option>
-            ))}
-          </Select>
-        </Td>
+          <FormControl isInvalid={!!error}>
+            <Input
+              p="0"
+              w="full"
+              h="full"
+              textAlign="left"
+              fontSize="inherit"
+              borderRadius="0"
+              borderColor="black"
+              _hover={{ borderColor: "blue" }}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="企業名を入力してください"
+            />
+            <FormErrorMessage>{error}</FormErrorMessage>
+          </FormControl>
+        </HStack>
+      </Td>
 
-        {/* 選考状況 */}
-        <Td textAlign="center" w="15%" border="1px solid #ddd" p="0 3px">
-          <Select
-            placeholder="選択してください"
-            p="0"
-            w="full"
-            h="full"
-            textAlign="center"
-            fontSize="inherit"
-            borderRadius="0"
-            borderColor="black"
-            _hover={{ borderColor: "blue" }}
-            value={selectionStatus}
-            onChange={(e) => setSelectionStatus(e.target.value)}
-          >
-            {selectionStatusList.map((status, index) => (
-              <option key={index} value={status}>
-                {status}
-              </option>
-            ))}
-          </Select>
-        </Td>
+      {/* 選考タイプ */}
+      <Td textAlign="center" w="15%" border="1px solid #ddd" p="0 3px">
+        <Select
+          placeholder="選択してください"
+          p="0"
+          w="full"
+          h="full"
+          textAlign="center"
+          fontSize="inherit"
+          borderRadius="0"
+          borderColor="black"
+          _hover={{ borderColor: "blue" }}
+          value={selectionType}
+          onChange={(e) => setSelectionType(e.target.value)}
+        >
+          {selectionTypeList.map((type, index) => (
+            <option key={index} value={type}>
+              {type}
+            </option>
+          ))}
+        </Select>
+      </Td>
 
-        {/* 選考日付 */}
-        <Td textAlign="center" w="20%" border="1px solid #ddd" p="0 3px">
-          <Input
-            p="0"
-            w="full"
-            h="23px"
-            textAlign="center"
-            fontSize="inherit"
-            type="datetime-local"
-            step="300"
-            borderRadius="0"
-            borderColor="black"
-            _hover={{ borderColor: "blue" }}
-            value={selectionDate === "-" ? "" : selectionDate}
-            onChange={(e) => setSelectionDate(e.target.value)}
-          />
-        </Td>
+      {/* 選考状況 */}
+      <Td textAlign="center" w="15%" border="1px solid #ddd" p="0 3px">
+        <Select
+          placeholder="選択してください"
+          p="0"
+          w="full"
+          h="full"
+          textAlign="center"
+          fontSize="inherit"
+          borderRadius="0"
+          borderColor="black"
+          _hover={{ borderColor: "blue" }}
+          value={selectionStatus}
+          onChange={(e) => setSelectionStatus(e.target.value)}
+        >
+          {selectionStatusList.map((status, index) => (
+            <option key={index} value={status}>
+              {status}
+            </option>
+          ))}
+        </Select>
+      </Td>
 
-        {/* 選考結果 */}
-        <Td textAlign="center" border="1px solid #ddd" p="0 3px">
+      {/* 選考日付 */}
+      <Td textAlign="center" w="20%" border="1px solid #ddd" p="0 3px">
+        <Input
+          p="0"
+          w="full"
+          h="23px"
+          textAlign="center"
+          fontSize="inherit"
+          type="datetime-local"
+          step="300"
+          borderRadius="0"
+          borderColor="black"
+          _hover={{ borderColor: "blue" }}
+          value={selectionDate === "-" ? "" : selectionDate}
+          onChange={(e) => setSelectionDate(e.target.value)}
+        />
+      </Td>
 
-          <Select
-            placeholder="選択してください"
-            p="0"
-            w="full"
-            h="full"
-            textAlign="center"
-            fontSize="inherit"
-            borderRadius="0"
-            borderColor="black"
-            _hover={{ borderColor: "blue" }}
-            value={selectionResult}
-            onChange={(e) => setSelectionResult(e.target.value)}
-          >
-            {selectionResultList.map((result, index) => (
-              <option key={index} value={result}>
-                {result}
-              </option>
-            ))}
-          </Select>
-        </Td>
-      </Tr>
-    );
-  }
+      {/* 選考結果 */}
+      <Td textAlign="center" border="1px solid #ddd" p="0 3px">
+
+        <Select
+          placeholder="選択してください"
+          p="0"
+          w="full"
+          h="full"
+          textAlign="center"
+          fontSize="inherit"
+          borderRadius="0"
+          borderColor="black"
+          _hover={{ borderColor: "blue" }}
+          value={selectionResult}
+          onChange={(e) => setSelectionResult(e.target.value)}
+        >
+          {selectionResultList.map((result, index) => (
+            <option key={index} value={result}>
+              {result}
+            </option>
+          ))}
+        </Select>
+      </Td>
+    </Tr>
+  );
 };
 
 export default CompanyEdit;

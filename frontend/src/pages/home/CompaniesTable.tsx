@@ -4,7 +4,6 @@ import { FC } from "react";
 import AddCompany from "./AddCompany";
 import CompanyListItem from "./CompanyListItem";
 
-
 type CompaniesTableProps = {
   companyList: Company[];
 };
