@@ -45,18 +45,33 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton }) => {
 
   return (
     <Tr fontFamily="sans-serif" fontStyle="normal" fontWeight="normal" bg="gray.200">
-      <Td textAlign="left" pb="0px" pt="0px" w="30%" border="1px solid #ddd">
+      <Td textAlign="left" pb="0px" pt="0px" pl="2" w="30%" border="1px solid #ddd">
         <HStack>
-          <Tooltip hasArrow label="編集" bg="gray.300" color="black">
+          <HStack w="auto" gap="2">
             <Button
+              w="20px"
+              p="0"
               variant="ghost"
-              p="0px 8px"
+              fontSize="12px"
+              onClick={handUpdate}
+              color="red"
+              minW="20px"
+            >
+              削除
+            </Button>
+            <Button
+              w="20px"
+              p="0"
+              fontSize="12px"
+              variant="ghost"
               onClick={handUpdate}
               color="blue"
+              minW="20px"
             >
-              <FaRegEdit size="1rem" />
+              保存
             </Button>
-          </Tooltip>
+          </HStack>
+
           <FormControl isInvalid={!!error}>
             <Input
               p="0"
