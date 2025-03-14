@@ -11,7 +11,8 @@ type CompanyListItemProps = {
 
 const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [edit, setEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+  const [isDeleted, setIsDeleted] = useState(false);
   const [name, setName] = useState(company.name);
   const [selectionType, setSelectionType] = useState(company.selection_type);
   const [selectionStatus, setSelectionStatus] = useState(company.selection_status);
@@ -27,7 +28,7 @@ const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
   };
 
   const handleEditButton = (updatedData: Company) => {
-    setEdit((prevEdit) => !prevEdit);
+    setIsEdit((prevIsEdit) => !prevIsEdit);
     setName(updatedData.name);
     setSelectionType(updatedData.selection_type);
     setSelectionStatus(updatedData.selection_status);
@@ -40,9 +41,11 @@ const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
     company.selection_result = selectionResult;
   };
 
-  if (edit) {
+  if (isDeleted) {
+    return
+  } else if (isEdit) {
     return (
-      <CompanyEdit company={company} handleEditButton={handleEditButton} />
+      <CompanyEdit company={company} handleEditButton={handleEditButton} handleDeleteButton={() => setIsDeleted(true)} />
     );
   } else {
     return (

@@ -55,6 +55,14 @@ export const updateCompany = async (
   }
 };
 
-
+export const deleteCompany = async (companyId: number) => {
+  try {
+    const res = await apiAxios.delete(`companies/${companyId}`);
+    return res.data;
+  } catch (error) {
+    console.error("Error deleting company:", error);
+    throw error;
+  }
+};
 
 export default apiAxios;

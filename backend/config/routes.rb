@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get 'companies/index', to: 'companies#index'
       post 'companies/create', to: 'companies#create'
       put 'companies/:id', to: 'companies#update'
+      delete 'companies/:id', to: 'companies#destroy'
     end
   end
 end

@@ -38,5 +38,14 @@ class Api::V1::CompaniesController < ApplicationController
     end
   end
   
-  
+  def destroy
+    @user = User.find(1)
+    @company = @user.companies.find(params[:id])
+
+    if @company
+      @company.destroy
+    else
+      render json: { error: "Company not found" }, status: :not_found
+    end
+  end  
 end
