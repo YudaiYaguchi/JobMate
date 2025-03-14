@@ -3,6 +3,7 @@ import { Company } from "../../types/Company";
 import { Button, HStack, Tr, Td, Text, Tooltip, Select, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { FaRegEdit } from "react-icons/fa";
 import { selectionTypeList, selectionStatusList, selectionResultList } from "./selectionOptions";
+import { updateCompany } from "../../services/companyApi";
 
 type CompanyEditProps = {
   company: Company;
@@ -10,6 +11,7 @@ type CompanyEditProps = {
 };
 
 const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton }) => {
+  const companyId = company.id;
   const [name, setName] = useState(company.name);
   const [selectionType, setSelectionType] = useState(company.selection_type || "");
   const [selectionStatus, setSelectionStatus] = useState(company.selection_status || "");
@@ -28,16 +30,14 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton }) => {
   const handUpdate = () => {
     if (validate()) {
       const updatedData = {
+        id: companyId,
         name: name,
         selection_type: selectionType,
         selection_status: selectionStatus,
         selection_date: selectionDate,
         selection_result: selectionResult,
       };
-
-      // ここで送信処理を呼び出す（例えば、API に送る）
-      console.log(updatedData);
-
+      updateCompany(updatedData);
       handleEditButton();
     }
   };
@@ -134,7 +134,7 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton }) => {
           borderRadius="0"
           borderColor="black"
           _hover={{ borderColor: "blue" }}
-          value={selectionDate}
+          value={selectionDate === "-" ? "" : selectionDate}
           onChange={(e) => setSelectionDate(e.target.value)}
         />
       </Td>

@@ -37,4 +37,25 @@ export const createCompany = async (
   }
 };
 
+export const updateCompany = async (
+  companyData: {
+    id: number;
+    name: string;
+    selection_type: string;
+    selection_status: string;
+    selection_date: string;
+    selection_result: string;
+  }
+) => {
+  try {
+    const res = await apiAxios.put(`companies/${companyData.id}`, companyData);
+    return res.data;
+  } catch (error) {
+    console.error("Error updating company:", error);
+    throw error;
+  }
+};
+
+
+
 export default apiAxios;
