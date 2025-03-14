@@ -16,7 +16,6 @@ export const selectionStatusList = [
 ];
 
 export const selectionResultList = [
-  "-",
   "合格",
   "不合格",
   "内定",
