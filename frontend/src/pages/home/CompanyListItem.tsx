@@ -34,6 +34,11 @@ const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
     setSelectionStatus(updatedData.selection_status);
     setSelectionDate(updatedData.selection_date);
     setSelectionResult(updatedData.selection_result);
+    company.name = name;
+    company.selection_type = selectionType;
+    company.selection_status = selectionStatus;
+    company.selection_date = selectionDate;
+    company.selection_result = selectionResult;
   };
 
   const handleDeleteButton = () => {
