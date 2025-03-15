@@ -1,14 +1,23 @@
 import { Company } from "../../types/Company";
 import { Table, Thead, Tbody, Tr, Th, VStack, TableContainer } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import AddCompany from "./AddCompany";
 import CompanyListItem from "./CompanyListItem";
+
 
 type CompaniesTableProps = {
   companyList: Company[];
 };
 
 const CompaniesTable: FC<CompaniesTableProps> = (props) => {
+  const [companyList, setCompanyList] = useState<Company[]>(props.companyList);
+  useEffect(() => {
+    setCompanyList(props.companyList);
+  }, [props.companyList]);
+
+  const handleCompanyCreate = (newCompany: Company) => {
+    setCompanyList((prevList) => [newCompany, ...prevList]);
+  };
 
   return (
     <VStack p="10px 5%" gap="0" w="full">
@@ -24,13 +33,13 @@ const CompaniesTable: FC<CompaniesTableProps> = (props) => {
             </Tr>
           </Thead>
           <Tbody>
-            {props.companyList.map((company) => (
+            {companyList.map((company) => (
               <CompanyListItem key={company.id} company={company} />
             ))}
           </Tbody>
         </Table>
       </TableContainer>
-      <AddCompany />
+      <AddCompany handleCompanyCreate={handleCompanyCreate} />
     </VStack>
   );
 };

@@ -1,13 +1,17 @@
 import { Button, Tr, Td, Table, Thead } from "@chakra-ui/react";
 import { GoPlusCircle } from "react-icons/go";
 import AddCompanyModal from "./AddCompanyModal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import Toast from "../../components/Toast";
+import { Company } from "../../types/Company";
 
-const AddCompany = () => {
+type AddCompanyProps = {
+  handleCompanyCreate: (newCompany: Company) => void;
+};
+
+const AddCompany: FC<AddCompanyProps> = ({ handleCompanyCreate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [successCreate, setSuccessCreate] = useState(false);
-  const [message, setMessage] = useState("");
 
   const openModal = () => {
     setIsOpen(true);
@@ -31,7 +35,7 @@ const AddCompany = () => {
               <Button variant="ghost" onClick={openModal}>
                 <GoPlusCircle size="24px" />
               </Button>
-              <AddCompanyModal isOpen={isOpen} onClose={closeModal} setSuccessCreate={setSuccessCreate} />
+              <AddCompanyModal isOpen={isOpen} onClose={closeModal} setSuccessCreate={setSuccessCreate} handleCompanyCreate={handleCompanyCreate} />
             </Td>
           </Tr>
         </Thead>

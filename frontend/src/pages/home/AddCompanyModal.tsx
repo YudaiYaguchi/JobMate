@@ -21,11 +21,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { string, z } from "zod";
 import { selectionTypeList, selectionStatusList, selectionResultList } from "./selectionOptions";
 import { createCompany } from "../../services/companyApi";
+import { Company } from "@/types/Company";
 
 type AddCompanyModalProps = {
   isOpen: boolean;
   onClose: () => void;
   setSuccessCreate: React.Dispatch<React.SetStateAction<boolean>>;
+  handleCompanyCreate: (newComapny: Company) => void;
 };
 
 const schema = z.object({
@@ -38,7 +40,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate }: AddCompanyModalProps) => {
+const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate, handleCompanyCreate }: AddCompanyModalProps) => {
   const {
     control,
     handleSubmit,
@@ -57,6 +59,8 @@ const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate }: AddCompanyModalP
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const res = await createCompany(data);
+      handleCompanyCreate(res)
+      console.log(res);
       setSuccessCreate(true);
       onClose();
     } catch (error) {

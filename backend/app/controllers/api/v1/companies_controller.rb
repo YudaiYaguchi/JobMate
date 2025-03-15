@@ -15,7 +15,10 @@ class Api::V1::CompaniesController < ApplicationController
     end
     
     @company = @user.companies.new(company_data)
-    unless @company.save
+
+    if @company.save
+      render json: @company, status: :ok
+    else
       render json: @company.errors, status: :unprocessable_entity
     end
   end
