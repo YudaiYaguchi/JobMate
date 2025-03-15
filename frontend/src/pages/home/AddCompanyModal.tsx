@@ -25,6 +25,7 @@ import { createCompany } from "../../services/companyApi";
 type AddCompanyModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  setSuccessCreate: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const schema = z.object({
@@ -37,7 +38,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
+const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate }: AddCompanyModalProps) => {
   const {
     control,
     handleSubmit,
@@ -53,9 +54,14 @@ const AddCompanyModal = ({ isOpen, onClose }: AddCompanyModalProps) => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    createCompany(data);
-    onClose();
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      const res = await createCompany(data);
+      setSuccessCreate(true);
+      onClose();
+    } catch (error) {
+      setSuccessCreate(false);
+    }
   };
 
   return (
