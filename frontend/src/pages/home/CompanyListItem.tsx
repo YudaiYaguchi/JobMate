@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { Company } from "../../types/Company";
 import { Button, HStack, Tr, Td, Text, Tooltip } from "@chakra-ui/react";
 import { FaRegEdit } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import CompanyEdit from "./CompanyEdit";
 import Toast from "../../components/Toast";
 
@@ -79,7 +80,9 @@ const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
                   <FaRegEdit size="1rem" />
                 </Button>
               </Tooltip>
-              <Text>{name}</Text>
+              <Link to={`/company/${company.id}`}>
+                <Text color="blue" _hover={{ textDecoration: "underline" }}>{name}</Text>
+              </Link>
             </HStack>
           </Td>
           <Td textAlign="center" w="15%" border="1px solid #ddd">{selectionType}</Td>
