@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { Box, Button, Flex, Heading, HStack, Text, Link as ChakraLink } from "@chakra-ui/react";
 import { Outlet, Link } from 'react-router-dom';
-import { FaUser } from "react-icons/fa";
-import { IoHomeOutline } from "react-icons/io5";
-import { FaBell } from "react-icons/fa";
+import { FaUser, FaBell } from "react-icons/fa";
 
 type LayoutProps = {
   userName?: string;
@@ -18,15 +16,62 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
           align="center"
           py={4}
           px={4}
+          position="relative"
         >
           <ChakraLink as={Link} to="/home" _hover={{ textDecoration: "none" }}>
-            <Heading as="h1" color="white" fontFamily="Oswald, sans-serif" fontSize="2xl" fontWeight="700" cursor="pointer" pl={6}>
+            <Heading
+              as="h1"
+              color="white"
+              fontFamily="Oswald, sans-serif"
+              fontSize="2xl"
+              fontWeight="700"
+              cursor="pointer"
+              pl={6}
+            >
               就活管理 ~JobMate~
             </Heading>
           </ChakraLink>
 
-          {!userName ? (
-            <HStack position="absolute" right="0px" padding="8px">
+          {userName && (
+            <>
+              <HStack
+                w="60%"
+                justify="center"
+                spacing={6}
+                textAlign="center"
+                fontSize="md"
+                color="white"
+              >
+                <Link to="/home">
+                  <Text _hover={{ textDecoration: "underline" }} fontWeight="bold">
+                    ESまとめ
+                  </Text>
+                </Link>
+                <Link to="/interview-questions">
+                  <Text _hover={{ textDecoration: "underline" }} fontWeight="bold">
+                    面接質問まとめ
+                  </Text>
+                </Link>
+              </HStack>
+
+
+              <HStack
+                position="absolute"
+                right="12px"
+                padding="8px"
+                spacing="12px"
+              >
+                <FaBell cursor="pointer" />
+                <HStack>
+                  <FaUser />
+                  <Text>{userName}</Text>
+                </HStack>
+              </HStack>
+            </>
+          )}
+
+          {!userName && (
+            <HStack position="absolute" right="12px" padding="8px" spacing="12px">
               <Button as={Link} to="/login" bg="none" border="none" color="white">
                 ログイン
               </Button>
@@ -34,40 +79,8 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
                 会員登録
               </Button>
             </HStack>
-          ) : (
-            <HStack position="absolute" right="0px" padding="12px" gap="12px">
-              <FaBell cursor="pointer" />
-              <HStack>
-                <FaUser />
-                <Text>{userName}</Text>
-              </HStack>
-            </HStack>
           )}
         </Flex>
-
-        {userName && (
-          <Flex
-            justify="center"
-            w="60%"
-            py={2}
-            gap={5}
-            borderBottom="2px solid #ddd"
-            mx="auto"
-            fontWeight="bold"
-          >
-            <ChakraLink as={Link} to="/home" color="blue.500" _hover={{ textDecoration: "underline" }} display="flex" alignItems="center">
-              <IoHomeOutline />
-            </ChakraLink>
-
-            <ChakraLink as={Link} to="/all-es" color="blue.500" _hover={{ textDecoration: "underline" }} display="flex" alignItems="center">
-              ESまとめ
-            </ChakraLink>
-
-            <ChakraLink as={Link} to="/interview-questions" color="blue.500" _hover={{ textDecoration: "underline" }} display="flex" alignItems="center">
-              面接質問まとめ
-            </ChakraLink>
-          </Flex>
-        )}
       </Box>
 
       <Outlet />
