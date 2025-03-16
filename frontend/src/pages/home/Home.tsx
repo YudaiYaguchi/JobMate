@@ -2,7 +2,7 @@ import { useEffect, useState, FC } from "react";
 import { getUserData } from "../../services/userApi";
 import { Company, User as IUser } from "@/types/Index";
 import CompaniesTable from "./CompaniesTable";
-import { HStack, Text } from "@chakra-ui/react";
+import { HStack, Text, Spinner } from "@chakra-ui/react";
 import QuestionTable from "./QuestionTable";
 import { questionList } from "./questionList";
 import { FaBuilding } from "react-icons/fa";
@@ -48,7 +48,21 @@ const Home: FC<HomeProps> = (props) => {
   }, []);
 
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <HStack
+      justifyContent="center"
+      alignItems="center"
+      h="100vh"
+    >
+      <Spinner
+        thickness='4px'
+        speed='0.65s'
+        emptyColor='gray.200'
+        color='blue.500'
+        size='xl'
+      />
+    </HStack>
+  );
   if (error) return <div>{error}</div>;
 
   return (
