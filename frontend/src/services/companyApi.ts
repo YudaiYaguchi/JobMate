@@ -18,6 +18,16 @@ export const getCompany = async () => {
   }
 };
 
+export const getCompanyById = async (id: string | number) => {
+  try {
+    const res = await apiAxios.get(`companies/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error(`Error fetching company data for ID ${id}:`, error);
+    throw error;
+  }
+};
+
 export const createCompany = async (
   companyData: {
     name: string,
