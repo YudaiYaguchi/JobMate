@@ -9,7 +9,7 @@ const user: User = {
   password: 'yudai 0503'
 }
 
-const Top = () => {
+const TopPage = () => {
   return (
     <>
       <Box position="relative" width="full" height="auto">
@@ -65,4 +65,4 @@ const Top = () => {
   )
 }
 
-export default Top;
+export default TopPage;

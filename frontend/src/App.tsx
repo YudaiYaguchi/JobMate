@@ -1,8 +1,9 @@
 // src/App.tsx
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Top from './pages/top/Top';
-import Home from './pages/home/Home';
+import TopPage from './pages/top/TopPage';
+import HomePage from './pages/home/HomePage';
+import CompanyPage from './pages/company/CompanyPage';
 import { Layout } from './components/Layout';
 
 function App() {
@@ -10,9 +11,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route  path="/" element={<Layout userName={userName}/>}>
-          <Route path="/" element={<Top />} />
-          <Route path="/home" element={<Home setUserName={setUserName}/>} />
+        <Route path="/" element={<Layout userName={userName} />}>
+          <Route path="/" element={<TopPage />} />
+          <Route path="/home" element={<HomePage setUserName={setUserName} />} />
+          <Route path="/company/:id" element={<CompanyPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

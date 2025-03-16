@@ -9,11 +9,11 @@ import { FaBuilding } from "react-icons/fa";
 import { FaQuestionCircle } from "react-icons/fa";
 import { getCompany } from "../../services/companyApi";
 
-type HomeProps = {
+type HomePageProps = {
   setUserName: (name: string) => void;
 };
 
-const Home: FC<HomeProps> = (props) => {
+const HomePage: FC<HomePageProps> = (props) => {
   const [companyList, setCompanyList] = useState<Company[]>([]);
   const [userData, setUserData] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
@@ -79,4 +79,4 @@ const Home: FC<HomeProps> = (props) => {
   );
 }
 
-export default Home;  
+export default HomePage;  
