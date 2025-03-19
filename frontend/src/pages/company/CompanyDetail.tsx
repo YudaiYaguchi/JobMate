@@ -18,7 +18,7 @@ const CompanyDetail: FC<CompanyDetailProps> = ({ company }) => {
     >
       <HStack justify="space-between" mb={2}>
         <Badge colorScheme="blue" fontSize="lg">{company.selection_type}</Badge>
-        <Badge colorScheme={company.selection_status === "進行中" ? "yellow" : "green"}>
+        <Badge colorScheme={company.selection_status === "進行中" ? "yellow" : "green"} fontSize="md">
           {company.selection_status}
         </Badge>
       </HStack>
