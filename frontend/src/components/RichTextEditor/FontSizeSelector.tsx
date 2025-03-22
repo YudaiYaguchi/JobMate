@@ -14,6 +14,7 @@ const FontSizeSelector: FC<FontSizeSelectorProps> = ({ editor, fontSize, setFont
 
   return (
     <Select
+      borderColor="#4A4A4A"
       value={fontSize}
       onChange={(e) => {
         setFontSize(e.target.value);

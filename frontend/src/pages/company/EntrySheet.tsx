@@ -24,37 +24,49 @@ const EntrySheet = () => {
 
   return (
     <VStack align="stretch" spacing={4}>
-      <HStack>
-        <Input
-          placeholder="設問を入力してください  例）当社への志望動機を教えてください。"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+      <Box gap="4" p={4} borderWidth={1} borderRadius="md" bg="gray.50">
+        <HStack>
+          <Input
+            _hover={{ borderColor: "blue" }}
+            bg="white"
+            borderColor="#4A4A4A"
+            placeholder="設問を入力してください  例）当社への志望動機を教えてください。"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Select
+            _hover={{ borderColor: "blue" }}
+            bg="white"
+            borderColor="#4A4A4A"
+            placeholder="文字数を選択"
+            value={maxLength}
+            onChange={(e) => setMaxLength(e.target.value)}
+            w="200px"
+          >
+            {lengthOptions.map((length) => (
+              <option key={length} value={length}>
+                {length}文字
+              </option>
+            ))}
+          </Select>
+        </HStack>
+        <Textarea
+          _hover={{ borderColor: "blue" }}
+          bg="white"
+          marginTop="6"
+          placeholder="回答を入力してください 例）私が貴社を志望した理由は..."
+          value={es}
+          borderColor="#4A4A4A"
+          onChange={(e) => setEs(e.target.value)}
+          h="30vh"
         />
-        <Select
-          placeholder="文字数を選択"
-          value={maxLength}
-          onChange={(e) => setMaxLength(e.target.value)}
-          w="200px"
-        >
-          {lengthOptions.map((length) => (
-            <option key={length} value={length}>
-              {length}文字
-            </option>
-          ))}
-        </Select>
-      </HStack>
-      <Textarea
-        placeholder="回答を入力してください 例）私が貴社を志望した理由は．．．"
-        value={es}
-        onChange={(e) => setEs(e.target.value)}
-        h="30vh"
-      />
-      <Text fontSize="sm" color="gray.500">
-        文字数: {es.length} / {maxLength || "制限なし"}
-      </Text>
-      <Button colorScheme="blue" onClick={handleSave}>
-        ESを保存
-      </Button>
+        <Text fontSize="sm" color="gray.500" marginTop="6">
+          文字数: {es.length} / {maxLength || "制限なし"}
+        </Text>
+        <Button colorScheme="blue" onClick={handleSave} w="full" marginTop="6">
+          ESを保存
+        </Button>
+      </Box>
 
       <Box mt={6} p={4} borderWidth={1} borderRadius="md" bg="gray.50">
         <HStack justify="space-between" mb={2}>

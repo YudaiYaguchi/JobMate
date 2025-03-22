@@ -13,7 +13,7 @@ import { getCompanyById } from "../../services/companyApi";
 import { Company } from "../../types/Company";
 import Toast from "../../components/Toast";
 import CompanyDetail from "./CompanyDetail";
-import AllTag from "./AllTab";
+import AllTab from "./AllTab";
 
 const CompanyPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -65,7 +65,7 @@ const CompanyPage = () => {
         </Box>
         <CompanyDetail company={company} />
       </Flex>
-      <AllTag company={company} />
+      <AllTab company={company} />
     </Box>
   );
 };
