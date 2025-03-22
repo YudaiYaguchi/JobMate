@@ -2,12 +2,13 @@ import { useEffect, useState, FC } from "react";
 import { getUserData } from "../../services/userApi";
 import { Company, User as IUser } from "@/types/Index";
 import CompaniesTable from "./CompaniesTable";
-import { HStack, Text, Spinner } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 import QuestionTable from "./QuestionTable";
 import { questionList } from "./questionList";
 import { FaBuilding } from "react-icons/fa";
 import { FaQuestionCircle } from "react-icons/fa";
 import { getCompany } from "../../services/companyApi";
+import { Loading } from "../../components/Loading";
 
 type HomePageProps = {
   setUserName: (name: string) => void;
@@ -49,19 +50,7 @@ const HomePage: FC<HomePageProps> = (props) => {
 
 
   if (loading) return (
-    <HStack
-      justifyContent="center"
-      alignItems="center"
-      h="100vh"
-    >
-      <Spinner
-        thickness='4px'
-        speed='0.65s'
-        emptyColor='gray.200'
-        color='blue.500'
-        size='xl'
-      />
-    </HStack>
+    <Loading />
   );
   if (error) return <div>{error}</div>;
 

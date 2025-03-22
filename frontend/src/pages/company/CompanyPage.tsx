@@ -5,13 +5,12 @@ import {
   Text,
   Heading,
   VStack,
-  HStack,
   Flex,
-  Spinner,
 } from "@chakra-ui/react";
 import { getCompanyById } from "../../services/companyApi";
 import { Company } from "../../types/Company";
 import Toast from "../../components/Toast";
+import { Loading } from "../../components/Loading";
 import CompanyDetail from "./CompanyDetail";
 import AllTab from "./AllTab";
 
@@ -33,9 +32,7 @@ const CompanyPage = () => {
 
   if (loading) {
     return (
-      <HStack justifyContent="center" alignItems="center" height="100vh">
-        <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
-      </HStack>
+      <Loading />
     );
   }
 

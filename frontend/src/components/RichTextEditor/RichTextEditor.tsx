@@ -14,7 +14,7 @@ const RichTextEditor: React.FC = () => {
   const [isBold, setIsBold] = useState<boolean>(false);
   const [isItalic, setIsItalic] = useState<boolean>(false);
   const [isUnderline, setIsUnderline] = useState<boolean>(false);
-  const [isFocused, setIsFocused] = useState(false); // フォーカス状態を管理
+  const [isFocused, setIsFocused] = useState(false);
 
   const initialValue: Descendant[] = [{ children: [{ text: "" }] }];
 
