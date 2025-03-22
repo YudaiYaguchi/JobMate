@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, FC } from "react";
 import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { withHistory } from "slate-history";
@@ -7,7 +7,11 @@ import Toolbar from "./Toolbar";
 import CustomLeaf from "./CustomLeaf";
 import { applyColor, applyFontSize, applyBold, applyItalic, applyUnderline } from "./utils";
 
-const RichTextEditor: React.FC = () => {
+type RichTextEditorProps = {
+  message: string;
+}
+
+const RichTextEditor: FC<RichTextEditorProps> = ({ message }) => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const [color, setColor] = useState<string>("black");
   const [fontSize, setFontSize] = useState<string>("16px");
@@ -58,12 +62,12 @@ const RichTextEditor: React.FC = () => {
         <Slate editor={editor} initialValue={initialValue} onSelectionChange={handleEditorChange}>
           <Editable
             renderLeaf={(props) => <CustomLeaf {...props} />}
-            placeholder="企業研究を入力してください"
+            placeholder={message}
             onKeyDown={handleKeyDown}
             style={{
               width: "100%",
               border: "none",
-              minHeight: "150px",
+              minHeight: "200px",
               padding: "10px",
               borderRadius: "5px",
               backgroundColor: "white",
