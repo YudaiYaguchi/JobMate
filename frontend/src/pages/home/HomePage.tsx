@@ -1,71 +1,52 @@
-import { useEffect, useState, FC } from "react";
-import { getUserData } from "../../services/userApi";
-import { Company, User as IUser } from "@/types/Index";
-import CompaniesTable from "./CompaniesTable";
+import { FC } from "react";
 import { HStack, Text } from "@chakra-ui/react";
+import { FaBuilding, FaQuestionCircle } from "react-icons/fa";
+import { Loading } from "../../components/Loading";
+import CompaniesTable from "./CompaniesTable";
 import QuestionTable from "./QuestionTable";
 import { questionList } from "./questionList";
-import { FaBuilding } from "react-icons/fa";
-import { FaQuestionCircle } from "react-icons/fa";
-import { getCompany } from "../../services/companyApi";
-import { Loading } from "../../components/Loading";
+import { useCompanies } from "../../hooks/useCompany";
+import { useUser } from "../../hooks/useUser";
+import { useLoadingError } from "../../hooks/useLoadingError";
 
 type HomePageProps = {
   setUserName: (name: string) => void;
 };
 
 const HomePage: FC<HomePageProps> = (props) => {
-  const [companyList, setCompanyList] = useState<Company[]>([]);
-  const [userData, setUserData] = useState<IUser | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>("");
+  const {
+    companies,
+    loading: companyLoading,
+    error: companyError,
+  } = useCompanies();
+  const { userData, loading: userLoading, error: userError } = useUser();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await getUserData();
-        setUserData(data);
-      } catch (error) {
-        setError("Failed to fetch user data");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { isLoading, error: combinedError } = useLoadingError([
+    { loading: companyLoading, error: companyError },
+    { loading: userLoading, error: userError },
+  ]);
 
-    fetchUserData();
-
-    const fetchCompanyData = async () => {
-      try {
-        const data = await getCompany();
-        setCompanyList(data);
-      } catch (error) {
-        setError("Failed to fetch company data");
-      }
-    };
-
-    fetchCompanyData();
-
-    props.setUserName('Yudai Yaguchi');
-  }, []);
-
-
-  if (loading) return (
-    <Loading />
-  );
-  if (error) return <div>{error}</div>;
+  if (isLoading) return <Loading />;
+  if (combinedError) return <div>{combinedError}</div>;
 
   return (
     <>
       <HStack p="20px 5%" pb="0px" display="flex">
-        <FaBuilding size="20px" /><Text fontWeight='bold' fontSize="20px" >選考中の企業</Text>
+        <FaBuilding size="20px" />
+        <Text fontWeight="bold" fontSize="20px">
+          選考中の企業
+        </Text>
       </HStack>
-      <CompaniesTable companyList={companyList} />
+      <CompaniesTable companyList={companies} />
       <HStack p="20px 5%" pb="0px" display="flex">
-        <FaQuestionCircle size="20px" /><Text fontWeight='bold' fontSize="20px" >直近の質問</Text>
+        <FaQuestionCircle size="20px" />
+        <Text fontWeight="bold" fontSize="20px">
+          直近の質問
+        </Text>
       </HStack>
       <QuestionTable questionList={questionList} />
     </>
   );
-}
+};
 
-export default HomePage;  
+export default HomePage;
