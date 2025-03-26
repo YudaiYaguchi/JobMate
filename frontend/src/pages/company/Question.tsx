@@ -160,6 +160,7 @@ const Question = () => {
               {item.isEditing ? (
                 <VStack spacing={3}>
                   <Input
+                    borderColor="#4A4A4A"
                     value={item.editQuestion || item.question}
                     placeholder="質問を編集"
                     onChange={(e) =>
@@ -176,7 +177,6 @@ const Question = () => {
                         adjustTextareaHeight(textareaRefs.current[index]!);
                       }
                     }}
-                    // refを設定し、高さ調整のためのスタイルも適用
                     ref={(el) => {
                       textareaRefs.current[index] = el;
                       if (el) {
@@ -211,7 +211,7 @@ const Question = () => {
                     <Text fontWeight="bold" fontSize="md" color="blue.600">
                       Q. {item.question}
                     </Text>
-                    <HStack spacing={2}>
+                    <HStack gap="0">
                       <IconButton
                         aria-label="編集"
                         icon={<EditIcon />}

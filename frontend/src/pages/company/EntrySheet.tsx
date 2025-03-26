@@ -9,8 +9,8 @@ import {
   Select,
   IconButton,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { EditIcon } from "@chakra-ui/icons";
+import { useState, useRef, useEffect } from "react";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 const EntrySheet = () => {
   const [es, setEs] = useState("");
@@ -20,6 +20,31 @@ const EntrySheet = () => {
   const [savedEntries, setSavedEntries] = useState<
     { title: string; es: string; maxLength: string; savedLength: number }[]
   >([]);
+
+  // テキストエリアの参照を保持するためのrefオブジェクト
+  const textareaRefs = useRef<{ [key: number]: HTMLTextAreaElement | null }>(
+    {}
+  );
+
+  // 編集モードが変更されたときにテキストエリアの高さを調整
+  useEffect(() => {
+    savedEntries.forEach((_, index) => {
+      if (editingIndex === index && textareaRefs.current[index]) {
+        const textarea = textareaRefs.current[index];
+        if (textarea) {
+          // 高さをリセットしてからコンテンツに合わせて調整
+          textarea.style.height = "auto";
+          textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+      }
+    });
+  }, [editingIndex, savedEntries]); // 編集状態が変わったときとエントリー内容が変わったときに実行
+
+  // テキストエリアの高さを調整する関数
+  const adjustTextareaHeight = (textarea: HTMLTextAreaElement) => {
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
 
   const lengthOptions = [
     100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800,
@@ -68,6 +93,18 @@ const EntrySheet = () => {
         field === "es" ? value.length : updatedEntries[index].savedLength,
     };
     setSavedEntries(updatedEntries);
+  };
+
+  const handleDelete = (index: number) => {
+    const updatedEntries = savedEntries.filter((_, i) => i !== index);
+    setSavedEntries(updatedEntries);
+    if (editingIndex === index) {
+      setEditingIndex(null);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingIndex(null);
   };
 
   return (
@@ -128,7 +165,7 @@ const EntrySheet = () => {
             <Box
               key={index}
               position="relative"
-              p={3}
+              p={4}
               borderWidth={1}
               borderRadius="md"
               mb={2}
@@ -140,47 +177,94 @@ const EntrySheet = () => {
                 size="sm"
                 variant="ghost"
                 position="absolute"
+                colorScheme="blue"
+                top={2}
+                right={10}
+                onClick={() => handleEdit(index)}
+              />
+              <IconButton
+                aria-label="削除"
+                icon={<DeleteIcon />}
+                size="sm"
+                variant="ghost"
+                position="absolute"
                 top={2}
                 right={2}
-                onClick={() => handleEdit(index)}
+                colorScheme="red"
+                onClick={() => handleDelete(index)}
               />
 
               <HStack align="center" spacing={4}>
                 <Box flex="1">
                   {editingIndex === index ? (
-                    <VStack align="stretch" spacing={3}>
+                    <VStack align="stretch" spacing={3} borderColor="#4A4A4A">
                       <Input
                         value={entry.title}
                         onChange={(e) =>
                           handleUpdate(index, "title", e.target.value)
                         }
                         fontSize="md"
-                        fontWeight="bold"
                       />
                       <Textarea
                         value={entry.es}
-                        onChange={(e) =>
-                          handleUpdate(index, "es", e.target.value)
-                        }
+                        onChange={(e) => {
+                          handleUpdate(index, "es", e.target.value);
+                          // 入力中にも高さを調整
+                          if (textareaRefs.current[index]) {
+                            adjustTextareaHeight(textareaRefs.current[index]!);
+                          }
+                        }}
+                        // refを設定し、高さ調整のためのスタイルも適用
+                        ref={(el) => {
+                          textareaRefs.current[index] = el;
+                          if (el) {
+                            adjustTextareaHeight(el);
+                          }
+                        }}
                         fontSize="md"
-                        minH="unset"
+                        minH="50px"
                         resize="vertical"
-                        overflow="hidden"
-                        rows={Math.ceil(entry.es.length / 40)}
+                        overflowY="hidden"
+                        rows={1}
                       />
+                      <HStack width="full" justify="flex-end">
+                        <Button size="sm" onClick={handleCancelEdit}>
+                          キャンセル
+                        </Button>
+                        <Button
+                          colorScheme="blue"
+                          size="sm"
+                          onClick={() => setEditingIndex(null)}
+                        >
+                          保存
+                        </Button>
+                      </HStack>
                     </VStack>
                   ) : (
                     <>
-                      <Text
-                        fontSize="md"
-                        fontWeight="bold"
-                        whiteSpace="pre-wrap"
-                      >
-                        {entry.title}
-                      </Text>
-                      <Text mt={1} whiteSpace="pre-wrap">
-                        {entry.es}
-                      </Text>
+                      <VStack gap={2} align="stretch">
+                        <Text
+                          fontSize="md"
+                          fontWeight="bold"
+                          whiteSpace="pre-wrap"
+                          color="blue.600"
+                        >
+                          Q. {entry.title}
+                        </Text>
+                        <Box pl={6} borderLeftWidth={2} borderColor="gray.200">
+                          <Text
+                            fontWeight="bold"
+                            fontSize="lg"
+                            display="inline"
+                            pb={2}
+                          >
+                            A.{" "}
+                          </Text>
+                          <Text mt={2} whiteSpace="pre-wrap" display="inline">
+                            {entry.es}
+                          </Text>
+                        </Box>
+                      </VStack>
                     </>
                   )}
                 </Box>
@@ -191,7 +275,7 @@ const EntrySheet = () => {
                   justify="center"
                   align="center"
                   display="flex"
-                  alignSelf="center" // 親要素内で垂直中央揃え
+                  alignSelf="center"
                 >
                   <Text fontSize="md" color="gray.700">
                     現在:{entry.savedLength}文字
