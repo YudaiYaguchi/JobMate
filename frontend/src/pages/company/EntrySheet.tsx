@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import CopyButton from "../../components/CopyButton";
 
 const EntrySheet = () => {
   const [es, setEs] = useState("");
@@ -171,28 +172,25 @@ const EntrySheet = () => {
               mb={2}
               bg="white"
             >
-              <IconButton
-                aria-label="編集"
-                icon={<EditIcon />}
-                size="sm"
-                variant="ghost"
-                position="absolute"
-                colorScheme="blue"
-                top={2}
-                right={10}
-                onClick={() => handleEdit(index)}
-              />
-              <IconButton
-                aria-label="削除"
-                icon={<DeleteIcon />}
-                size="sm"
-                variant="ghost"
-                position="absolute"
-                top={2}
-                right={2}
-                colorScheme="red"
-                onClick={() => handleDelete(index)}
-              />
+              <Box position="absolute" top={2} right={2} display="flex">
+                <CopyButton copyText={entry.es} />
+                <IconButton
+                  aria-label="編集"
+                  icon={<EditIcon />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="blue"
+                  onClick={() => handleEdit(index)}
+                />
+                <IconButton
+                  aria-label="削除"
+                  icon={<DeleteIcon />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="red"
+                  onClick={() => handleDelete(index)}
+                />
+              </Box>
 
               <HStack align="center" spacing={4}>
                 <Box flex="1">

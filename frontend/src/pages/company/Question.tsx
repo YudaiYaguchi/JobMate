@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect, useRef } from "react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-
+import CopyButton from "../../components/CopyButton";
 const Question = () => {
   const [questions, setQuestions] = useState<
     Array<{
@@ -212,6 +212,7 @@ const Question = () => {
                       Q. {item.question}
                     </Text>
                     <HStack gap="0">
+                      <CopyButton copyText={item.answer} />
                       <IconButton
                         aria-label="編集"
                         icon={<EditIcon />}
