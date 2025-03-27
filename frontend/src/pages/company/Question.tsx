@@ -95,6 +95,12 @@ const Question = () => {
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
+  const handleDelete = (index: number) => {
+    if (window.confirm("この質問・回答を削除してもよろしいですか？")) {
+      setQuestions(questions.filter((_, i) => i !== index));
+    }
+  };
+
   return (
     <>
       <Box bg="gray.50" gap={4} p={4}>
@@ -142,7 +148,7 @@ const Question = () => {
 
       <VStack spacing={4} align="stretch" bg="gray.50" mt={10} gap={2} p={4}>
         <Text fontSize="lg" fontWeight="bold">
-          質問
+          質問・回答
         </Text>
         {questions.length === 0 ? (
           <Text color="gray.500">登録された質問はありません。</Text>
@@ -187,7 +193,6 @@ const Question = () => {
                     overflowY="hidden"
                     minH="50px"
                     w="100%"
-                    mt={3}
                     _hover={{ borderColor: "blue" }}
                     borderColor="#4A4A4A"
                     bg="white"
@@ -227,9 +232,7 @@ const Question = () => {
                         colorScheme="red"
                         size="sm"
                         variant="ghost"
-                        onClick={() =>
-                          setQuestions(questions.filter((_, i) => i !== index))
-                        }
+                        onClick={() => handleDelete(index)}
                       />
                     </HStack>
                   </HStack>

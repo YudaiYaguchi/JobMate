@@ -97,10 +97,12 @@ const EntrySheet = () => {
   };
 
   const handleDelete = (index: number) => {
-    const updatedEntries = savedEntries.filter((_, i) => i !== index);
-    setSavedEntries(updatedEntries);
-    if (editingIndex === index) {
-      setEditingIndex(null);
+    if (window.confirm("この設問・回答を削除してもよろしいですか？")) {
+      const updatedEntries = savedEntries.filter((_, i) => i !== index);
+      setSavedEntries(updatedEntries);
+      if (editingIndex === index) {
+        setEditingIndex(null);
+      }
     }
   };
 
