@@ -12,14 +12,36 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import CopyButton from "../../components/CopyButton";
+import { useParams } from "react-router-dom";
+import { useEntrySheet } from "../../hooks/useEntrySheet";
+import { Loading } from "../../components/Loading";
+import { EntrySheetData } from "../../hooks/useEntrySheet";
 
 const EntrySheet = () => {
-  const [es, setEs] = useState("");
-  const [title, setTitle] = useState("");
-  const [maxLength, setMaxLength] = useState("");
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const companyId = id ? parseInt(id, 10) : 0;
+  const {
+    loading,
+    error,
+    entrySheets,
+    fetchEntrySheets,
+    createNewEntrySheet,
+    updateExistingEntrySheet,
+    removeEntrySheet,
+  } = useEntrySheet(companyId);
+
+  const [answer, setAnswer] = useState("");
+  const [question, setQuestion] = useState("");
+  const [max_length, setMaxLength] = useState("");
+  const [editingIndex, setEditingIndex] = useState<number>(-1);
   const [savedEntries, setSavedEntries] = useState<
-    { title: string; es: string; maxLength: string; savedLength: number }[]
+    {
+      id?: number;
+      question: string;
+      answer: string;
+      max_length: string;
+      savedLength: number;
+    }[]
   >([]);
 
   // テキストエリアの参照を保持するためのrefオブジェクト
@@ -51,67 +73,173 @@ const EntrySheet = () => {
     100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800,
   ];
 
-  const handleSave = () => {
-    if (title.trim() && es.trim() && maxLength.trim()) {
-      if (editingIndex !== null) {
-        // 編集モード：既存のエントリーを更新
-        const updatedEntries = [...savedEntries];
-        updatedEntries[editingIndex] = {
-          title,
-          es,
-          maxLength,
-          savedLength: es.length,
-        };
-        setSavedEntries(updatedEntries);
-        setEditingIndex(null);
-      } else {
-        // 新規作成モード：新しいエントリーを追加
-        setSavedEntries([
-          ...savedEntries,
-          { title, es, maxLength, savedLength: es.length },
-        ]);
-      }
-      setTitle("");
-      setEs("");
+  // APIからデータを取得
+  useEffect(() => {
+    const loadEntrySheets = async () => {
+      await fetchEntrySheets();
+    };
+
+    if (companyId) {
+      loadEntrySheets();
+    }
+  }, [companyId]);
+
+  // APIから取得したデータを表示用の形式に変換
+  useEffect(() => {
+    if (entrySheets.length > 0) {
+      const formattedEntries = entrySheets.map((sheet) => ({
+        id: sheet.id,
+        question: sheet.question,
+        answer: sheet.answer,
+        max_length: sheet.max_length.toString(),
+        savedLength: sheet.answer.length,
+      }));
+      setSavedEntries(formattedEntries);
+    }
+  }, [entrySheets]);
+
+  // 新規エントリーシートを作成する関数
+  const handleCreateNewEntrySheet = async () => {
+    if (!question.trim() || !answer.trim() || !max_length.trim()) return;
+
+    const entrySheetData: EntrySheetData = {
+      question: question,
+      answer: answer,
+      max_length: parseInt(max_length),
+      company_id: companyId,
+    };
+
+    await createNewEntrySheet(entrySheetData);
+
+    // 入力フォームをリセット
+    setQuestion("");
+    setAnswer("");
+    setMaxLength("");
+  };
+
+  // 既存のエントリーシートを更新する関数
+  const handleUpdateEntrySheet = async (index: number) => {
+    if (!question.trim() || !answer.trim() || !max_length.trim()) return;
+
+    const entryToUpdate = savedEntries[index];
+    if (!entryToUpdate || !entryToUpdate.id) {
+      return;
+    }
+
+    // リストのエントリーを更新 (UIの即時反映)
+    const updatedEntries = [...savedEntries];
+    updatedEntries[index] = {
+      ...entryToUpdate,
+      question: question,
+      answer: answer,
+      max_length: max_length,
+      savedLength: answer.length,
+    };
+    setSavedEntries(updatedEntries);
+
+    // APIを使って保存
+    const entrySheetData: EntrySheetData = {
+      id: entryToUpdate.id,
+      question: question,
+      answer: answer,
+      max_length: parseInt(max_length),
+      company_id: companyId,
+    };
+
+    const result = await updateExistingEntrySheet(entrySheetData);
+
+    if (result) {
+      // 編集モードを終了
+      setEditingIndex(-1);
+
+      // 入力フォームをリセット
+      setQuestion("");
+      setAnswer("");
       setMaxLength("");
     }
   };
 
-  const handleEdit = (index: number) => {
-    setEditingIndex(index === editingIndex ? null : index);
-  };
-
-  const handleUpdate = (
+  // フィールドごとの更新 (編集中のみ - UIの更新)
+  const handleFieldUpdate = async (
     index: number,
-    field: "title" | "es",
+    field: "question" | "answer",
     value: string
   ) => {
+    // 現在編集中のエントリーのフィールドを更新 (UI表示用)
     const updatedEntries = [...savedEntries];
     updatedEntries[index] = {
       ...updatedEntries[index],
       [field]: value,
       savedLength:
-        field === "es" ? value.length : updatedEntries[index].savedLength,
+        field === "answer" ? value.length : updatedEntries[index].savedLength,
     };
     setSavedEntries(updatedEntries);
+
+    // 編集フォームの値も同期して更新
+    if (field === "question") {
+      setQuestion(value);
+    } else if (field === "answer") {
+      setAnswer(value);
+    }
   };
 
-  const handleDelete = (index: number) => {
+  // 保存ボタンのハンドラー - 新規作成か更新かを判断
+  const handleSave = async () => {
+    if (!question.trim() || !answer.trim() || !max_length.trim()) return;
+
+    if (editingIndex >= 0) {
+      await handleUpdateEntrySheet(editingIndex);
+    } else {
+      await handleCreateNewEntrySheet();
+    }
+  };
+
+  // 編集モードに入る
+  const handleEdit = (index: number) => {
+    if (editingIndex === index) {
+      // 同じ項目をクリックした場合は編集モードを解除
+      setEditingIndex(-1);
+    } else {
+      // 編集対象の内容をフォームにセット
+      const entryToEdit = savedEntries[index];
+      setQuestion(entryToEdit.question);
+      setAnswer(entryToEdit.answer);
+      setMaxLength(entryToEdit.max_length);
+      setEditingIndex(index);
+    }
+  };
+
+  const handleDelete = async (index: number) => {
     if (window.confirm("この設問・回答を削除してもよろしいですか？")) {
-      const updatedEntries = savedEntries.filter((_, i) => i !== index);
-      setSavedEntries(updatedEntries);
-      if (editingIndex === index) {
-        setEditingIndex(null);
+      const entryToDelete = savedEntries[index];
+      if (entryToDelete.id) {
+        const success = await removeEntrySheet(entryToDelete.id);
+        if (success && editingIndex === index) {
+          setEditingIndex(-1);
+        }
+      } else {
+        // IDがない場合はローカルでのみ削除
+        const updatedEntries = savedEntries.filter((_, i) => i !== index);
+        setSavedEntries(updatedEntries);
+        if (editingIndex === index) {
+          setEditingIndex(-1);
+        }
       }
     }
   };
 
   const handleCancelEdit = () => {
-    setEditingIndex(null);
+    setEditingIndex(-1);
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <VStack align="stretch" spacing={4}>
+      {error && <Text color="red.500">{error}</Text>}
+
       <Box gap="4" p={4} borderWidth={1} borderRadius="md" bg="gray.50">
         <HStack>
           <Input
@@ -119,15 +247,15 @@ const EntrySheet = () => {
             bg="white"
             borderColor="#4A4A4A"
             placeholder="設問を入力してください  例）当社への志望動機を教えてください。"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
           />
           <Select
             _hover={{ borderColor: "blue" }}
             bg="white"
             borderColor="#4A4A4A"
             placeholder="文字数を選択"
-            value={maxLength}
+            value={max_length}
             onChange={(e) => setMaxLength(e.target.value)}
             w="200px"
           >
@@ -143,13 +271,13 @@ const EntrySheet = () => {
           bg="white"
           marginTop="6"
           placeholder="回答を入力してください 例）私が貴社を志望した理由は..."
-          value={es}
+          value={answer}
           borderColor="#4A4A4A"
-          onChange={(e) => setEs(e.target.value)}
+          onChange={(e) => setAnswer(e.target.value)}
           h="30vh"
         />
         <Text fontSize="sm" color="gray.500" marginTop="6">
-          文字数: {es.length} / {maxLength || "制限なし"}
+          文字数: {answer.length} / {max_length || "制限なし"}
         </Text>
         <Button colorScheme="blue" onClick={handleSave} w="full" marginTop="6">
           ESを保存
@@ -175,7 +303,7 @@ const EntrySheet = () => {
               bg="white"
             >
               <Box position="absolute" top={2} right={2} display="flex">
-                <CopyButton copyText={entry.es} />
+                <CopyButton copyText={entry.answer} />
                 <IconButton
                   aria-label="編集"
                   icon={<EditIcon />}
@@ -199,16 +327,16 @@ const EntrySheet = () => {
                   {editingIndex === index ? (
                     <VStack align="stretch" spacing={3} borderColor="#4A4A4A">
                       <Input
-                        value={entry.title}
+                        value={entry.question}
                         onChange={(e) =>
-                          handleUpdate(index, "title", e.target.value)
+                          handleFieldUpdate(index, "question", e.target.value)
                         }
                         fontSize="md"
                       />
                       <Textarea
-                        value={entry.es}
+                        value={entry.answer}
                         onChange={(e) => {
-                          handleUpdate(index, "es", e.target.value);
+                          handleFieldUpdate(index, "answer", e.target.value);
                           // 入力中にも高さを調整
                           if (textareaRefs.current[index]) {
                             adjustTextareaHeight(textareaRefs.current[index]!);
@@ -234,7 +362,7 @@ const EntrySheet = () => {
                         <Button
                           colorScheme="blue"
                           size="sm"
-                          onClick={() => setEditingIndex(null)}
+                          onClick={() => handleUpdateEntrySheet(index)}
                         >
                           保存
                         </Button>
@@ -249,7 +377,7 @@ const EntrySheet = () => {
                           whiteSpace="pre-wrap"
                           color="blue.600"
                         >
-                          Q. {entry.title}
+                          Q. {entry.question}
                         </Text>
                         <Box pl={6} borderLeftWidth={2} borderColor="gray.200">
                           <Text
@@ -261,7 +389,7 @@ const EntrySheet = () => {
                             A.{" "}
                           </Text>
                           <Text mt={2} whiteSpace="pre-wrap" display="inline">
-                            {entry.es}
+                            {entry.answer}
                           </Text>
                         </Box>
                       </VStack>
@@ -281,7 +409,7 @@ const EntrySheet = () => {
                     現在:{entry.savedLength}文字
                   </Text>
                   <Text fontSize="md" color="gray.700">
-                    制限:{entry.maxLength}文字
+                    制限:{entry.max_length}文字
                   </Text>
                 </VStack>
               </HStack>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User } from '@/types/Index';
+import { User } from '@/types/User';
 import { getUserData } from '../services/userApi';
 import { useLoadingError } from './useLoadingError';
 
