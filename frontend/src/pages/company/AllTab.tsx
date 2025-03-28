@@ -23,8 +23,8 @@ const AllTag: FC<AllTagProps> = ({ company }) => {
       <TabList>
         <Tab>企業研究</Tab>
         <Tab>ES</Tab>
-        <Tab>質問</Tab>
-        <Tab>反省</Tab>
+        <Tab>面接質問</Tab>
+        <Tab>面接反省</Tab>
         <Tab>プレビュー</Tab>
       </TabList>
       <TabPanels>
