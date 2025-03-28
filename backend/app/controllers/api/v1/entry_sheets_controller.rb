@@ -18,7 +18,6 @@ class Api::V1::EntrySheetsController < ApplicationController
 
   def create
     @company = @user.companies.find_by(id: entry_sheet_params[:company_id])
-    puts "company: #{@company}"
     
     unless @company
       return render json: { error: "Company not found" }, status: :not_found
