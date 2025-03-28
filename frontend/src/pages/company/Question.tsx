@@ -7,86 +7,112 @@ import {
   IconButton,
   Box,
   Textarea,
+  Spinner,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { useState, useEffect, useRef } from "react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import CopyButton from "../../components/CopyButton";
+import { useQuestion } from "../../hooks/useQuestion";
+import { Question as QuestionType } from "../../types/Question";
+import { useParams } from "react-router-dom";
+
 const Question = () => {
-  const [questions, setQuestions] = useState<
-    Array<{
-      question: string;
-      answer: string;
-      isEditing?: boolean;
-      editQuestion?: string;
-      editAnswer?: string;
-    }>
-  >([]);
+  const { id } = useParams<{ id: string }>();
+  const companyId = id ? parseInt(id, 10) : 0;
+
+  const {
+    loading,
+    error,
+    questions,
+    fetchQuestionsByCompany,
+    createNewQuestion,
+    updateExistingQuestion,
+    removeQuestion
+  } = useQuestion();
+
   const [newQuestion, setNewQuestion] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
+  
+  // 編集中の質問の状態管理
+  const [editStates, setEditStates] = useState<{
+    [key: number]: {
+      isEditing: boolean;
+      editQuestion: string;
+      editAnswer: string;
+    };
+  }>({});
 
   // テキストエリアの参照を保持するためのrefオブジェクト
-  const textareaRefs = useRef<{ [key: number]: HTMLTextAreaElement | null }>(
-    {}
-  );
+  const textareaRefs = useRef<{ [key: number]: HTMLTextAreaElement | null }>({});
+
+  // コンポーネントマウント時に質問を取得
+  useEffect(() => {
+    if (companyId) {
+      fetchQuestionsByCompany(companyId);
+    }
+  }, [companyId]);
 
   // 編集モードが変更されたときにテキストエリアの高さを調整
   useEffect(() => {
-    questions.forEach((item, index) => {
-      if (item.isEditing && textareaRefs.current[index]) {
-        const textarea = textareaRefs.current[index];
-        if (textarea) {
-          // 高さをリセットしてからコンテンツに合わせて調整
-          textarea.style.height = "auto";
-          textarea.style.height = `${textarea.scrollHeight}px`;
+    Object.entries(editStates).forEach(([idStr, state]) => {
+      if (state.isEditing) {
+        const index = Number(idStr);
+        if (textareaRefs.current[index]) {
+          const textarea = textareaRefs.current[index];
+          if (textarea) {
+            // 高さをリセットしてからコンテンツに合わせて調整
+            textarea.style.height = "auto";
+            textarea.style.height = `${textarea.scrollHeight}px`;
+          }
         }
       }
     });
-  }, [questions.map((q) => q.isEditing).join(",")]); // 編集状態が変わったときだけ実行
+  }, [editStates]);
 
-  const handleEdit = (index: number) => {
-    setQuestions(
-      questions.map((item, i) => {
-        if (i === index) {
-          return {
-            ...item,
-            isEditing: !item.isEditing,
-            editQuestion: item.isEditing ? undefined : item.question,
-            editAnswer: item.isEditing ? undefined : item.answer,
-          };
-        }
-        return { ...item, isEditing: false };
-      })
-    );
+  const handleEdit = (question: QuestionType) => {
+    setEditStates(prev => ({
+      ...prev,
+      [question.id]: {
+        isEditing: !prev[question.id]?.isEditing || false,
+        editQuestion: question.question,
+        editAnswer: question.answer
+      }
+    }));
   };
 
   const handleEditChange = (
-    index: number,
+    id: number,
     field: "editQuestion" | "editAnswer",
     value: string
   ) => {
-    setQuestions(
-      questions.map((item, i) => {
-        if (i === index) {
-          return { ...item, [field]: value };
-        }
-        return item;
-      })
-    );
+    setEditStates(prev => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        [field]: value
+      }
+    }));
   };
 
-  const handleUpdate = (index: number) => {
-    setQuestions(
-      questions.map((item, i) => {
-        if (i === index) {
-          return {
-            question: item.editQuestion || item.question,
-            answer: item.editAnswer || item.answer,
-            isEditing: false,
-          };
-        }
-        return item;
-      })
-    );
+  const handleUpdate = async (id: number) => {
+    const editState = editStates[id];
+    if (!editState) return;
+
+    const result = await updateExistingQuestion(id, {
+      question: editState.editQuestion,
+      answer: editState.editAnswer
+    });
+
+    if (result) {
+      // 編集モードを終了
+      setEditStates(prev => {
+        const newState = { ...prev };
+        delete newState[id];
+        return newState;
+      });
+    }
   };
 
   // テキストエリアの高さを調整する関数
@@ -95,14 +121,44 @@ const Question = () => {
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
-  const handleDelete = (index: number) => {
+  const handleDelete = async (id: number) => {
     if (window.confirm("この質問・回答を削除してもよろしいですか？")) {
-      setQuestions(questions.filter((_, i) => i !== index));
+      await removeQuestion(id);
     }
   };
 
+  const handleAddQuestion = async () => {
+    if (newQuestion && newAnswer) {
+      await createNewQuestion({
+        question: newQuestion,
+        answer: newAnswer,
+        company_id: companyId
+      });
+      
+      setNewQuestion("");
+      setNewAnswer("");
+    }
+  };
+
+  // ローディング中の表示
+  if (loading && questions.length === 0) {
+    return (
+      <Box textAlign="center" py={10}>
+        <Spinner size="xl" />
+        <Text mt={4}>質問を読み込み中...</Text>
+      </Box>
+    );
+  }
+
   return (
     <>
+      {error && (
+        <Alert status="error" mb={4}>
+          <AlertIcon />
+          {error}
+        </Alert>
+      )}
+
       <Box bg="gray.50" gap={4} p={4}>
         <VStack spacing={3}>
           <Input
@@ -128,18 +184,10 @@ const Question = () => {
             bg="white"
           />
           <Button
-            onClick={() => {
-              if (newQuestion && newAnswer) {
-                setQuestions([
-                  ...questions,
-                  { question: newQuestion, answer: newAnswer },
-                ]);
-                setNewQuestion("");
-                setNewAnswer("");
-              }
-            }}
+            onClick={handleAddQuestion}
             colorScheme="blue"
             width="full"
+            isLoading={loading}
           >
             質問と回答を登録
           </Button>
@@ -150,12 +198,13 @@ const Question = () => {
         <Text fontSize="lg" fontWeight="bold">
           質問・回答
         </Text>
+        
         {questions.length === 0 ? (
           <Text color="gray.500">登録された質問・回答はありません。</Text>
         ) : (
-          questions.map((item, index) => (
+          questions.map((item) => (
             <Box
-              key={index}
+              key={item.id}
               p={4}
               borderWidth={1}
               borderRadius="md"
@@ -163,28 +212,28 @@ const Question = () => {
               _hover={{ shadow: "sm" }}
               transition="all 0.2s"
             >
-              {item.isEditing ? (
+              {editStates[item.id]?.isEditing ? (
                 <VStack spacing={3}>
                   <Input
                     borderColor="#4A4A4A"
-                    value={item.editQuestion || item.question}
+                    value={editStates[item.id].editQuestion}
                     placeholder="質問を編集"
                     onChange={(e) =>
-                      handleEditChange(index, "editQuestion", e.target.value)
+                      handleEditChange(item.id, "editQuestion", e.target.value)
                     }
                   />
                   <Textarea
-                    value={item.editAnswer || item.answer}
+                    value={editStates[item.id].editAnswer}
                     placeholder="回答を編集"
                     onChange={(e) => {
-                      handleEditChange(index, "editAnswer", e.target.value);
+                      handleEditChange(item.id, "editAnswer", e.target.value);
                       // 入力中にも高さを調整
-                      if (textareaRefs.current[index]) {
-                        adjustTextareaHeight(textareaRefs.current[index]!);
+                      if (textareaRefs.current[item.id]) {
+                        adjustTextareaHeight(textareaRefs.current[item.id]!);
                       }
                     }}
                     ref={(el) => {
-                      textareaRefs.current[index] = el;
+                      textareaRefs.current[item.id] = el;
                       if (el) {
                         adjustTextareaHeight(el);
                       }
@@ -198,13 +247,14 @@ const Question = () => {
                     bg="white"
                   />
                   <HStack width="full" justify="flex-end">
-                    <Button size="sm" onClick={() => handleEdit(index)}>
+                    <Button size="sm" onClick={() => handleEdit(item)}>
                       キャンセル
                     </Button>
                     <Button
                       colorScheme="blue"
                       size="sm"
-                      onClick={() => handleUpdate(index)}
+                      onClick={() => handleUpdate(item.id)}
+                      isLoading={loading}
                     >
                       保存
                     </Button>
@@ -224,7 +274,7 @@ const Question = () => {
                         colorScheme="blue"
                         size="sm"
                         variant="ghost"
-                        onClick={() => handleEdit(index)}
+                        onClick={() => handleEdit(item)}
                       />
                       <IconButton
                         aria-label="削除"
@@ -232,15 +282,16 @@ const Question = () => {
                         colorScheme="red"
                         size="sm"
                         variant="ghost"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(item.id)}
+                        isDisabled={loading}
                       />
                     </HStack>
                   </HStack>
                   <Box pl={6} borderLeftWidth={2} borderColor="gray.200">
-                    <Text fontWeight="bold" fontSize="lg" display="inline">
+                    <Text fontWeight="bold" fontSize="lg" display="inline" whiteSpace="pre-wrap">
                       A.{" "}
                     </Text>
-                    <Text color="gray.700" display="inline">
+                    <Text color="gray.700" display="inline" whiteSpace="pre-wrap" >
                       {item.answer}
                     </Text>
                   </Box>

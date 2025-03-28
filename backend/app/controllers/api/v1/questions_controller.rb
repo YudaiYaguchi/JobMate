@@ -18,7 +18,7 @@ class Api::V1::QuestionsController < ApplicationController
 
   def create
     @company = @user.companies.find_by(id: question_params[:company_id])
-    
+    puts @company
     unless @company
       return render json: { error: "Company not found" }, status: :not_found
     end
@@ -64,6 +64,6 @@ class Api::V1::QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:question, :answer, :company_id)
+    params.permit(:question, :answer, :company_id)
   end
 end

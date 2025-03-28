@@ -44,7 +44,6 @@ const Toolbar: FC<ToolbarProps> = ({
     setIsBold(isActive.bold);
     setIsItalic(isActive.italic);
     setIsUnderline(isActive.underline);
-    console.log(isActive);
   }, [isActive])
 
   const handleToggleMark = (format: string) => {

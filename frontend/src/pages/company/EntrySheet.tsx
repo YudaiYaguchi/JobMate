@@ -61,8 +61,8 @@ const EntrySheet = () => {
         }
       }
     });
-  }, [editingIndex, savedEntries]); // 編集状態が変わったときとエントリー内容が変わったときに実行
-
+  }, [editingIndex, savedEntries]);
+  
   // テキストエリアの高さを調整する関数
   const adjustTextareaHeight = (textarea: HTMLTextAreaElement) => {
     textarea.style.height = "auto";

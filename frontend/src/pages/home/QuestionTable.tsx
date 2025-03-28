@@ -27,7 +27,7 @@ const QuestionTable: FC<QuestionTableProps> = (props) => {
                 boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
               >
                 <Icon as={BsQuestionCircle} color="blue.500" mr={4} />
-                {question.questionText}
+                {question.question}
               </Td>
             </Tr>
           ))}
