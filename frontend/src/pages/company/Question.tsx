@@ -151,7 +151,7 @@ const Question = () => {
           質問・回答
         </Text>
         {questions.length === 0 ? (
-          <Text color="gray.500">登録された質問はありません。</Text>
+          <Text color="gray.500">登録された質問・回答はありません。</Text>
         ) : (
           questions.map((item, index) => (
             <Box
