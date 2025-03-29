@@ -76,7 +76,6 @@ export const useQuestion = (): QuestionHook => {
     try {
       setLoading(true);
       setError(null);
-      console.log(data);
       const response = await createQuestion(data);
       // 新しい質問をリストに追加
       setQuestions([...questions, response]);

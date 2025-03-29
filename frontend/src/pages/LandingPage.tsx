@@ -167,6 +167,24 @@ const LandingPage: React.FC = () => {
 
   return (
     <Box minH="100vh" bg={bgGradient}>
+      <Box as="header" w="full">
+        <Flex
+          background="linear-gradient(135deg, rgb(63, 63, 204), rgb(120, 120, 255))"
+          align="center"
+          py={4}
+          px={4}
+          position="relative"
+        >
+          <Heading
+            as="h1"
+            color="white"
+            fontFamily="Oswald, sans-serif"
+            fontSize="2xl"
+          >
+            就活管理 ~JobMate~
+          </Heading>
+        </Flex>
+      </Box>  
       {/* Hero Section */}
       <Box bg="white" position="relative" overflow="hidden">
         <Box
@@ -183,7 +201,7 @@ const LandingPage: React.FC = () => {
             <GridItem>
               <VStack align="start" spacing={6}>
                 <HStack spacing={4}>
-                  <Tag size="lg" colorScheme="blue" borderRadius="full" px={4} py={1}>
+                  <Tag size="lg" colorScheme="blue" borderRadius="full" px={4} >
                     <Icon as={FaRocket} mr={2} />
                     就活を効率化
                   </Tag>
@@ -272,22 +290,22 @@ const LandingPage: React.FC = () => {
               主な機能
             </Heading>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-              {features.map((feature  , index) => (
+              {features.map((feature, index) => (
                 <Box
                   key={index}
                   p={8}
                   bg={cardBg}
                   borderRadius="lg"
-                  boxShadow="md"
+                  boxShadow="lg"
                   transition="all 0.3s"
                   _hover={{
                     transform: 'translateY(-5px)',
-                    boxShadow: 'lg',
+                    boxShadow: 'xl',
                     bg: cardHoverBg,
                   }}
                 >
                   <VStack spacing={4} align="start">
-                    <Icon as={feature.icon} w={8} h={8} color="blue.500" />
+                    <Icon as={feature.icon} w={10} h={10} color="blue.500" />
                     <Heading size="md" color="gray.800">{feature.title}</Heading>
                     <Text color={featureTextColor}>
                       {feature.description}
@@ -307,8 +325,52 @@ const LandingPage: React.FC = () => {
           </VStack>
         </Container>
       </Box>
-
-
+      {/* User Testimonials Section */}
+      <Box bg="blue.50" py={20}>
+        <Container maxW="container.xl">
+          <VStack spacing={12}>
+            <Heading textAlign="center" size="xl" color="gray.800">
+              ユーザーの声
+            </Heading>
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
+              <Box 
+                p={6} 
+                borderRadius="lg" 
+                boxShadow="lg" 
+                bg="white" 
+                transition="all 0.3s" 
+                _hover={{ transform: 'translateY(-5px)', boxShadow: '2xl' }} 
+                display="flex" 
+                flexDirection="column" 
+                alignItems="center"
+              >
+                <Image src="/images/sky.jpg" alt="User 1" borderRadius="full" boxSize="80px" mb={4} />
+                <Text fontSize="lg" color="gray.600" textAlign="center" fontStyle="italic">
+                  "JobMateを使って就活がスムーズになりました！機能が豊富で、特にES管理が便利です。"
+                </Text>
+                <Text fontWeight="bold" color="blue.500" mt={2}>- 山田太郎</Text>
+              </Box>
+              <Box 
+                p={6} 
+                borderRadius="lg" 
+                boxShadow="lg" 
+                bg="white" 
+                transition="all 0.3s" 
+                _hover={{ transform: 'translateY(-5px)', boxShadow: '2xl' }} 
+                display="flex" 
+                flexDirection="column" 
+                alignItems="center"
+              >
+                <Image src="/images/sky.jpg" alt="User 2" borderRadius="full" boxSize="80px" mb={4} />
+                <Text fontSize="lg" color="gray.600" textAlign="center" fontStyle="italic">
+                  "面接の準備が楽になり、自信を持って挑めるようになりました。"
+                </Text>
+                <Text fontWeight="bold" color="blue.500" mt={2}>- 佐藤花子</Text>
+              </Box>
+            </SimpleGrid>
+          </VStack>
+        </Container>
+      </Box>
       {/* Benefits Section */}
       <Box bg="white" py={20}>
         <Container maxW="container.xl">
@@ -318,7 +380,7 @@ const LandingPage: React.FC = () => {
             </Heading>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
               {benefits.map((benefit, index) => (
-                <HStack key={index} spacing={4} p={4} bg="blue.50" borderRadius="lg">
+                <HStack key={index} spacing={4} p={4} bg="blue.50" borderRadius="lg" boxShadow="md" transition="all 0.3s" _hover={{ transform: 'translateY(-2px)', boxShadow: 'lg' }}>
                   <Icon as={FaCheckCircle} color="blue.500" />
                   <Text fontSize="lg" color="gray.800">{benefit}</Text>
                 </HStack>
@@ -348,6 +410,7 @@ const LandingPage: React.FC = () => {
               _hover={{
                 transform: 'translateY(-2px)',
                 boxShadow: 'lg',
+                bg: 'whiteAlpha.300',
               }}
             >
               無料で始める

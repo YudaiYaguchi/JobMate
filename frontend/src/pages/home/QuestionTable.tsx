@@ -15,7 +15,6 @@ const QuestionTable: FC<QuestionTableProps> = (props) => {
           {props.questionList.map((question, index) => (
             <Tr
               key={index}
-              _hover={{ backgroundColor: "gray.100" }}
               mb="30px"
             >
               <Td
