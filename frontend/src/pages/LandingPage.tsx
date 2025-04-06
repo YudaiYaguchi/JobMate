@@ -161,8 +161,9 @@ const LandingPage: React.FC = () => {
     '無料で始められる',
     '直感的なUI',
     'モバイル対応',
-    'データのバックアップ',
-    '24時間サポート',
+    '使いやすいダッシュボード',
+    'カスタマイズ可能な設定',
+    '豊富な統計情報',
   ];
 
   return (
@@ -222,7 +223,7 @@ const LandingPage: React.FC = () => {
                 <HStack spacing={4}>
                   <Button
                     as={Link}
-                    to="/register"
+                    to="/login"
                     size="lg"
                     colorScheme="blue"
                     px={8}
@@ -338,8 +339,6 @@ const LandingPage: React.FC = () => {
                 borderRadius="lg" 
                 boxShadow="lg" 
                 bg="white" 
-                transition="all 0.3s" 
-                _hover={{ transform: 'translateY(-5px)', boxShadow: '2xl' }} 
                 display="flex" 
                 flexDirection="column" 
                 alignItems="center"
@@ -355,8 +354,6 @@ const LandingPage: React.FC = () => {
                 borderRadius="lg" 
                 boxShadow="lg" 
                 bg="white" 
-                transition="all 0.3s" 
-                _hover={{ transform: 'translateY(-5px)', boxShadow: '2xl' }} 
                 display="flex" 
                 flexDirection="column" 
                 alignItems="center"
