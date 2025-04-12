@@ -9,6 +9,19 @@ const apiAxios = axios.create({
   },
 });
 
+apiAxios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // 全ての質問を取得
 export const getQuestions = async (): Promise<Question[]> => {
   try {

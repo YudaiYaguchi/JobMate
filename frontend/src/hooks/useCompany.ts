@@ -25,14 +25,14 @@ export const useCompanies = () => {
 
   const { isLoading, error: loadingError } = useLoadingError([{ loading, error }]);
 
-  return { 
-    companies, 
-    loading: isLoading, 
+  return {
+    companies,
+    loading: isLoading,
     error: loadingError
   };
 };
 
-export const useCompany = (id: string) => {
+export const useCompany = (companyId: string) => {
   const [company, setCompany] = useState<Company | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
@@ -43,11 +43,11 @@ export const useCompany = (id: string) => {
     const fetchCompany = async () => {
       setIdLoading(true);
       try {
-        if (!id) {
+        if (!companyId) {
           setIdError("Company ID is required");
           return;
         }
-        const data = await getCompanyById(id);
+        const data = await getCompanyById(companyId);
         setCompany(data);
       } catch (error) {
         setError("Failed to fetch company data");
@@ -58,16 +58,16 @@ export const useCompany = (id: string) => {
     };
 
     fetchCompany();
-  }, [id]);
+  }, [companyId]);
 
   const { isLoading, error: loadingError } = useLoadingError([
     { loading, error },        // 会社データの取得状態
     { loading: idLoading, error: idError }  // IDの検証状態
   ]);
 
-  return { 
-    company, 
-    loading: isLoading, 
+  return {
+    company,
+    loading: isLoading,
     error: loadingError
   };
 }; 

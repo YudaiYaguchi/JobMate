@@ -15,20 +15,20 @@ import CompanyDetail from "./CompanyDetail";
 import AllTab from "./AllTab";
 
 const CompanyPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id: companyId } = useParams<{ id: string }>();
   const [company, setCompany] = useState<Company | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (id) {
+    if (companyId) {
       setLoading(true);
-      getCompanyById(id)
+      getCompanyById(companyId)
         .then((data) => {
           setCompany(data);
         })
         .finally(() => setLoading(false));
     }
-  }, [id]);
+  }, [companyId]);
 
   if (loading) {
     return (

@@ -8,6 +8,19 @@ const apiAxios = axios.create({
   },
 });
 
+apiAxios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const getCompany = async () => {
   try {
     const res = await apiAxios.get("companies/index");
@@ -18,12 +31,12 @@ export const getCompany = async () => {
   }
 };
 
-export const getCompanyById = async (id: string | number) => {
+export const getCompanyById = async (companyId: string | number) => {
   try {
-    const res = await apiAxios.get(`companies/${id}`);
+    const res = await apiAxios.get(`companies/${companyId}`);
     return res.data;
   } catch (error) {
-    console.error(`Error fetching company data for ID ${id}:`, error);
+    console.error(`Error fetching company data for ID ${companyId}:`, error);
     throw error;
   }
 };
@@ -74,5 +87,4 @@ export const deleteCompany = async (companyId: number) => {
     throw error;
   }
 };
-
 export default apiAxios;

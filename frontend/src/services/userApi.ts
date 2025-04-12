@@ -9,6 +9,19 @@ const apiAxios = axios.create({
   },
 });
 
+apiAxios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const getUserData = async () => {
   try {
     const res = await apiAxios.get("users/index");
@@ -34,16 +47,8 @@ export const createUser = async (data: InputUser) => {
 
 export const getCurrentUser = async () => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-
-    const res = await apiAxios.get("users/current", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const user: User = res.data
+    const res = await apiAxios.get("users/get_current_user_info");
+    const user: User = res.data;
     console.log("ユーザー情報:", user);
     return user;
   } catch (error) {

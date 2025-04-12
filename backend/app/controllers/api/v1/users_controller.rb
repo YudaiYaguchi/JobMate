@@ -24,7 +24,7 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def current
+  def get_current_user_info
     token = request.headers[:authorization]&.split(" ")&.last
     if token
       @user = find_user_from_token(token)

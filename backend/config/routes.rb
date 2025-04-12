@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'users/index', to: 'users#index'
       post 'users/create', to: 'users#create'
-      get 'users/current', to: 'users#current'
+      get 'users/get_current_user_info', to: 'users#get_current_user_info'
       
       get 'companies/index', to: 'companies#index'
       get 'companies/:id', to: 'companies#show'
