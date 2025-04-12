@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -18,22 +19,38 @@ import {
 } from "@chakra-ui/react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { createUser } from "../..//services/userApi";
+import Toast from "../../components/Toast";
+
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsername] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ email, password, rememberMe, username, isRegistering });
+    setErrorMessage("");
+    try {
+      await createUser({
+        name: username,
+        email: email,
+        password: password
+      });
+      navigate("/home");
+    } catch (error: any) {
+      setErrorMessage(error.message);
+    }
   };
 
   return (
     <Box bg="gray.100" w="full" h="full">  
+      {errorMessage && <Toast message={errorMessage} status="error" />}
       <Container p={10} centerContent minH="100vh" display="flex" alignItems="center">
         <Box
           p={6}

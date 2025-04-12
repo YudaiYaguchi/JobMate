@@ -1,5 +1,10 @@
 export type User = {
   id: number
   name: string
-  password: string
 };
+
+export type InputUser = {
+  name: string
+  email: string
+  password: string
+}

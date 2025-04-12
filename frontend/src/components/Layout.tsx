@@ -2,12 +2,13 @@ import { FC } from "react";
 import { Box, Button, Flex, Heading, HStack, Text, Link as ChakraLink } from "@chakra-ui/react";
 import { Outlet, Link } from 'react-router-dom';
 import { FaUser, FaBell } from "react-icons/fa";
+import { User } from "../types/User";
 
 type LayoutProps = {
-  userName?: string;
+  user: User | null;
 };
 
-export const Layout: FC<LayoutProps> = ({ userName }) => {
+export const Layout: FC<LayoutProps> = ({ user }) => {
   return (
     <>
       <Box as="header" w="full">
@@ -32,7 +33,7 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
             </Heading>
           </ChakraLink>
 
-          {userName && (
+          { user && (
             <>
               <HStack
                 w="60%"
@@ -64,13 +65,13 @@ export const Layout: FC<LayoutProps> = ({ userName }) => {
                 <FaBell cursor="pointer" />
                 <HStack>
                   <FaUser />
-                  <Text>{userName}</Text>
+                  <Text>{user.name}</Text>
                 </HStack>
               </HStack>
             </>
           )}
 
-          {!userName && (
+          {!user && (
             <HStack position="absolute" right="12px" padding="8px" spacing="12px">
               <Button as={Link} to="/login" bg="none" border="none" color="white">
                 ログイン

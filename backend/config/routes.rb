@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'users/index', to: 'users#index'
+      post 'users/create', to: 'users#create'
+      get 'users/current', to: 'users#current'
       
       get 'companies/index', to: 'companies#index'
       get 'companies/:id', to: 'companies#show'

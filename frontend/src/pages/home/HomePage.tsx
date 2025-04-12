@@ -8,12 +8,13 @@ import { questionList } from "./questionList";
 import { useCompanies } from "../../hooks/useCompany";
 import { useUser } from "../../hooks/useUser";
 import { useLoadingError } from "../../hooks/useLoadingError";
+import { User } from "@/types/User";
 
 type HomePageProps = {
-  setUserName: (name: string) => void;
+  user: User | null
 };
 
-const HomePage: FC<HomePageProps> = (props) => {
+const HomePage: FC<HomePageProps> = (user) => {
   const {
     companies,
     loading: companyLoading,
