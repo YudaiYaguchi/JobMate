@@ -9,8 +9,8 @@ type QuestionTableProps = {
 
 const QuestionTable: FC<QuestionTableProps> = (props) => {
   return (
-    <VStack p="10px 5%" w="100%">
-      <Table variant="simple" w="100%" >
+    <VStack w="full">
+      <Table variant="simple" w="full" >
         <Tbody>
           {props.questionList.map((question, index) => (
             <Tr
