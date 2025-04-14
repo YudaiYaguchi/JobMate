@@ -6,7 +6,7 @@ import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/login/LoginPage";
 import CompanyPage from "./pages/company/CompanyPage";
 import LandingPage from "./pages/LandingPage";
-import { Layout } from "./components/Layout";
+import { DefaultLayout } from "./components/DefaultLayout";
 import { User } from "./types/User";
 import { getCurrentUser } from "./services/userApi";
 
@@ -62,7 +62,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/landing" element={<LandingPage />} />
-        <Route path="/" element={ <Layout user={user} />}>
+        <Route path="/" element={ <DefaultLayout user={user} />}>
           <Route path="/" element={<TopPage />} />
           <Route
             path="/home"
