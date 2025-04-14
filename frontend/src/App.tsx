@@ -7,7 +7,6 @@ import LoginPage from "./pages/login/LoginPage";
 import CompanyPage from "./pages/company/CompanyPage";
 import LandingPage from "./pages/LandingPage";
 import { Layout } from "./components/Layout";
-import { getAuthUser, isAuthenticated } from "./utils/auth";
 import { User } from "./types/User";
 import { getCurrentUser } from "./services/userApi";
 
@@ -16,22 +15,44 @@ function App() {
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setUser(null);
+        return;
+      }
+
       try {
         const userData = await getCurrentUser();
         if (userData) {
           setUser(userData);
+        } else {
+          localStorage.removeItem('token');
+          setUser(null);
         }
       } catch (error) {
         console.error("ユーザー情報の取得に失敗しました:", error);
+        localStorage.removeItem('token');
+        setUser(null);
       }
     };
 
     fetchCurrentUser();
+
+    // トークン変更時のイベントリスナー
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'token') {
+        fetchCurrentUser();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   // 認証が必要なルートの保護
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-    if (!user) {
+    const token = localStorage.getItem('token');
+    if (!token) {
       return <Navigate to="/login" replace />;
     }
     return <>{children}</>;
@@ -41,7 +62,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/landing" element={<LandingPage />} />
-        <Route path="/" element={<Layout user={user} />}>
+        <Route path="/" element={ <Layout user={user} />}>
           <Route path="/" element={<TopPage />} />
           <Route
             path="/home"

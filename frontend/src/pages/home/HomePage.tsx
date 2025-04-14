@@ -6,7 +6,6 @@ import CompaniesTable from "./CompaniesTable";
 import QuestionTable from "./QuestionTable";
 import { questionList } from "./questionList";
 import { useCompanies } from "../../hooks/useCompany";
-import { useUser } from "../../hooks/useUser";
 import { useLoadingError } from "../../hooks/useLoadingError";
 import { User } from "@/types/User";
 
@@ -20,11 +19,9 @@ const HomePage: FC<HomePageProps> = (user) => {
     loading: companyLoading,
     error: companyError,
   } = useCompanies();
-  const { userData, loading: userLoading, error: userError } = useUser();
 
   const { isLoading, error: combinedError } = useLoadingError([
     { loading: companyLoading, error: companyError },
-    { loading: userLoading, error: userError },
   ]);
 
   if (isLoading) return <Loading />;

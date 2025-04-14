@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../config";
-import { InputUser, User } from "../types/User";
+import { InputLoginUser, InputRegisterUser, User } from "../types/User";
 
 const apiAxios = axios.create({
   baseURL: `${API_URL}/api/v1/`,
@@ -32,7 +32,7 @@ export const getUserData = async () => {
   }
 };
 
-export const createUser = async (data: InputUser) => {
+export const createUser = async (data: InputRegisterUser) => {
   try {
     const res = await apiAxios.post("users/create", { user: data });
     localStorage.setItem("token", res.data.token);
@@ -56,5 +56,20 @@ export const getCurrentUser = async () => {
     return null;
   }
 };
+
+export const loginUser = async (data: InputLoginUser) => {
+  try {
+    const res = await apiAxios.post("users/login", { user: data });
+    const token = res.data.token;
+    localStorage.setItem("token", token);
+    return res.data;
+  } catch (error: any) {
+    console.error("ログインに失敗しました:", error);
+    if (error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error("ログインに失敗しました");
+  }
+}
 
 export default apiAxios;

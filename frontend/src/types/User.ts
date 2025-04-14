@@ -3,8 +3,13 @@ export type User = {
   name: string
 };
 
-export type InputUser = {
+export type InputRegisterUser = {
   name: string
+  email: string
+  password: string
+}
+
+export type InputLoginUser = {
   email: string
   password: string
 }
