@@ -94,7 +94,6 @@ export const DefaultLayout: FC<LayoutProps> = ({ user }) => {
         py={4}
         w="100%"
         boxShadow="0px -4px 8px rgba(0, 0, 0, 0.2)"
-        mt="8"
       >
         <Text fontSize="sm">
           &copy; 2025 就活管理 JobMate. All rights reserved.

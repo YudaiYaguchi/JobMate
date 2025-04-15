@@ -1,15 +1,17 @@
 import { FC } from "react";
-import { HStack, Text, Box, Flex, Textarea } from "@chakra-ui/react";
+import { HStack, Text, Box, Flex, Input } from "@chakra-ui/react";
 import { FaBuilding, FaQuestionCircle } from "react-icons/fa";
 import { CiMemoPad } from "react-icons/ci";
 import { Loading } from "../../components/Loading";
-import CompaniesTable from "./CompaniesTable";
-import QuestionTable from "./QuestionTable";
 import { questionList } from "./questionList";
 import { useCompanies } from "../../hooks/useCompany";
 import { useLoadingError } from "../../hooks/useLoadingError";
 import { User } from "@/types/User";
+import CompaniesTable from "./CompaniesTable";
+import QuestionTable from "./QuestionTable";
 import Todo from "./Todo";
+import CompanySearchBar from "./CompanySearchBar";
+import FilterBar from "./FilterBar";
 
 type HomePageProps = {
   user: User | null
@@ -17,7 +19,7 @@ type HomePageProps = {
 
 const HomePage: FC<HomePageProps> = (user) => {
   const {
-    companies,
+    companList,
     loading: companyLoading,
     error: companyError,
   } = useCompanies();
@@ -31,14 +33,16 @@ const HomePage: FC<HomePageProps> = (user) => {
 
   return (
     <>
-      <HStack p="20px 5%" pb="0px" display="flex">
+      <HStack p="20px 5%" pb="0px" >
         <FaBuilding size="20px" />
         <Text fontWeight="bold" fontSize="20px">
           選考中の企業
         </Text>
+        <CompanySearchBar />
+        <FilterBar />
       </HStack>
-      <CompaniesTable companyList={companies} />
-      <HStack p="20px 5%" pb="0px" w="100%" alignItems="flex-start">
+      <CompaniesTable companyList={companList} />
+      <HStack p="20px 5%" pb="0"  w="100%" alignItems="flex-start">
         {/* 左側：直近の質問 */}
         <Flex w="50%" justifyContent="flex-start" align="center">
           <HStack spacing="8px">
@@ -60,7 +64,7 @@ const HomePage: FC<HomePageProps> = (user) => {
         </Flex>
       </HStack>
 
-      <HStack w="full" gap={4} p="10px 5%" align="stretch">
+      <HStack w="full" gap={4} p="10px 5%" mb="4" align="stretch">
         <Box w="50%" pr="0px" pl="0" pb="0px">
           <QuestionTable questionList={questionList} />
         </Box>
