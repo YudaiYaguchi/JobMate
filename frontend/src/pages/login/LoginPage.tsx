@@ -62,7 +62,7 @@ const LoginPage: FC<LoginPageProps> = ({fetchCurrentUser}) => {
   return (
     <Box bg="gray.100" w="full" h="full">
       {errorMessage && <Toast message={errorMessage} status="error" />}
-      <Container p={10} centerContent minH="100vh" display="flex" alignItems="center">
+      <Container p={10} centerContent display="flex" alignItems="center">
         <Box
           p={6}
           borderRadius="lg"
