@@ -8,7 +8,7 @@ import { useCompanies } from "../../hooks/useCompany";
 import { useLoadingError } from "../../hooks/useLoadingError";
 import { User } from "@/types/User";
 import CompaniesTable from "./CompaniesTable";
-import QuestionTable from "./QuestionTable";
+import QuestionAccordion from "./QuestionAccordion ";
 import Todo from "./Todo";
 import CompanySearchBar from "./CompanySearchBar";
 import FilterBar from "./FilterBar";
@@ -29,7 +29,6 @@ const HomePage: FC<HomePageProps> = (user) => {
   ]);
 
   if (isLoading) return <Loading />;
-  if (combinedError) return <div>{combinedError}</div>;
 
   return (
     <>
@@ -43,17 +42,17 @@ const HomePage: FC<HomePageProps> = (user) => {
       </HStack>
       <CompaniesTable companyList={companList} />
       <HStack p="20px 5%" pb="0"  w="100%" alignItems="flex-start">
-        {/* 左側：直近の質問 */}
+        {/* 質問一覧 */}
         <Flex w="50%" justifyContent="flex-start" align="center">
           <HStack spacing="8px">
             <FaQuestionCircle size="20px" />
             <Text fontWeight="bold" fontSize="20px">
-              直近の質問
+              質問一覧
             </Text>
           </HStack>
         </Flex>
 
-        {/* 右側：TODOメモ */}
+        {/* TODOメモ */}
         <Flex w="50%" justifyContent="flex-start" align="center">
           <HStack spacing="8px">
             <CiMemoPad size="25px" />
@@ -63,10 +62,9 @@ const HomePage: FC<HomePageProps> = (user) => {
           </HStack>
         </Flex>
       </HStack>
-
       <HStack w="full" gap={4} p="10px 5%" mb="4" align="stretch">
-        <Box w="50%" pr="0px" pl="0" pb="0px">
-          <QuestionTable questionList={questionList} />
+        <Box w="50%" pr="0px" pl="0" pb="0px" >
+          <QuestionAccordion questionList={questionList} />
         </Box>
         <Box w="50%" pr="0px" pl="0" pb="0px">
           <Todo />
