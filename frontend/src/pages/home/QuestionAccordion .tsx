@@ -22,7 +22,7 @@ const QuestionAccordion: FC<QuestionAccordionProps> = ({ questionList }) => {
         {questionList.map((question, index) => (
           <AccordionItem key={index}>
             <Text>
-              <AccordionButton _expanded={{ bg: "blue.50" }} px={4} py={3}>
+              <AccordionButton _expanded={{ bg: "blue.100" }} px={4} py={3}>
                 <Box as="span" flex="1" textAlign="left" display="flex" alignItems="center">
                   <Text fontWeight="medium">・{question.question}</Text>
                 </Box>

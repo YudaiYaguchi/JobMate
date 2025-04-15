@@ -6,7 +6,7 @@ const EmptyCompanyList = () => {
       <Table variant="simple">
         <Thead>
           <Tr>
-            <Td p="0px 8px" textAlign="center">
+            <Td p="0px 8px" bg="white" textAlign="center">
               <HStack
                 h="100px"
                 justifyContent="center"

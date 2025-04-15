@@ -64,9 +64,15 @@ const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
           fontFamily="sans-serif"
           fontStyle="normal"
           fontWeight="normal"
-          _hover={{ backgroundColor: isHovered ? "gray.200" : "transparent" }}
+          sx={{
+            _hover: {
+              td: {
+                bg: "blue.100",
+              },
+            },
+          }}
         >
-          <Td textAlign="left" pb="0px" pt="0px" w="30%" border="1px solid #ddd">
+          <Td textAlign="left" bg="white" pb="0px" pt="0px" w="30%" border="1px solid #ddd">
             <HStack>
               <Tooltip hasArrow label="編集" bg="gray.300" color="black">
                 <Button
@@ -81,14 +87,14 @@ const CompanyListItem: FC<CompanyListItemProps> = ({ company }) => {
                 </Button>
               </Tooltip>
               <Link to={`/company/${company.id}`}>
-                <Text color="blue" _hover={{ textDecoration: "underline" }}>{name}</Text>
+                <Text color="blue"  _hover={{ textDecoration: "underline" }}>{name}</Text>
               </Link>
             </HStack>
           </Td>
-          <Td textAlign="center" w="15%" border="1px solid #ddd">{selectionType}</Td>
-          <Td textAlign="center" w="15%" border="1px solid #ddd">{selectionStatus}</Td>
-          <Td textAlign="center" w="20%" border="1px solid #ddd">{selectionDate}</Td>
-          <Td textAlign="center" border="1px solid #ddd">{selectionResult}</Td>
+          <Td textAlign="center" bg="white" w="15%" border="1px solid #ddd">{selectionType}</Td>
+          <Td textAlign="center" bg="white" w="15%" border="1px solid #ddd">{selectionStatus}</Td>
+          <Td textAlign="center" bg="white" w="20%" border="1px solid #ddd">{selectionDate}</Td>
+          <Td textAlign="center" bg="white" border="1px solid #ddd">{selectionResult}</Td>
         </Tr>
       </>
     );

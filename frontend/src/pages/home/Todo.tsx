@@ -3,9 +3,10 @@ import { Textarea } from "@chakra-ui/react";
 const Todo = () => {
   return(
     <Textarea 
+      bg="white"
       h="full" 
       borderWidth="2px" 
-      borderColor="gray.100" 
+      borderColor="gray.200" 
       placeholder={`
         ・〇〇〇株式会社 エントリーシート提出（4/20〆切）
         ・△△△株式会社 WEBテスト受験（4/18まで）

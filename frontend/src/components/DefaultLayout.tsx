@@ -85,7 +85,7 @@ export const DefaultLayout: FC<LayoutProps> = ({ user }) => {
       </Box>
 
       <Outlet />
-
+    
       <Box
         as="footer"
         bg="rgb(20, 20, 50)"

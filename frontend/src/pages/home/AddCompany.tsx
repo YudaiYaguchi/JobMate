@@ -29,9 +29,9 @@ const AddCompany: FC<AddCompanyProps> = ({ handleCompanyCreate }) => {
     <>
       {successCreate && <Toast status="success" message="正常に企業情報を登録しました。" />}
       <Table variant="simple" >
-        <Thead border="1.5px solid #ddd">
+        <Thead border="2px solid #ddd">
           <Tr>
-            <Td p="0px 8px" colSpan={5} textAlign="center">
+            <Td p="0px 8px" bg="white" colSpan={5} textAlign="center">
               <Button variant="ghost" onClick={openModal}>
                 <GoPlusCircle size="24px" />
               </Button>
