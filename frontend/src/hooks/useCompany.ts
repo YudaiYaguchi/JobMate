@@ -4,7 +4,7 @@ import { getCompany, getCompanyById } from '../services/companyApi';
 import { useLoadingError } from '../hooks/useLoadingError';
 
 export const useCompanies = () => {
-  const [companies, setCompanies] = useState<Company[]>([]);
+  const [companList, setCompanyList] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
 
@@ -12,7 +12,7 @@ export const useCompanies = () => {
     const fetchCompanies = async () => {
       try {
         const data = await getCompany();
-        setCompanies(data);
+        setCompanyList(data);
       } catch (error) {
         setError("Failed to fetch company data");
       } finally {
@@ -26,7 +26,7 @@ export const useCompanies = () => {
   const { isLoading, error: loadingError } = useLoadingError([{ loading, error }]);
 
   return {
-    companies,
+    companList: companList,
     loading: isLoading,
     error: loadingError
   };
