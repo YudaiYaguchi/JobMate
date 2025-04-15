@@ -22,7 +22,7 @@ const CompaniesTable: FC<CompaniesTableProps> = (props) => {
 
   return (
     <VStack p="10px 5%" gap="0" w="full">
-      <TableContainer w="full" maxH={props.companyList.length > 5 ? "230px" : "none"} overflowY={props.companyList.length > 5 ? "auto" : "initial"} border="1.5px solid #ddd" position="relative">
+      <TableContainer w="full" maxH={props.companyList.length > 5 ? "270px" : "none"} overflowY={props.companyList.length > 5 ? "auto" : "initial"} border="1.5px solid #ddd" position="relative">
         <Table size="sm" variant="simple" w="full">
           <Thead bg="gray.100" position="sticky" top="0" zIndex="10" borderBottom="2px solid #ddd">
             <Tr>
