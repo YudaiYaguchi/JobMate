@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -11,7 +11,11 @@ import AuthTabs from "./components/AuthTabs";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 
-const LoginPage = () => {
+type LoginPageProps = {
+  fetchCurrentUser: () => void;
+}
+
+const LoginPage: FC<LoginPageProps> = ({fetchCurrentUser}) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +23,10 @@ const LoginPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [userName, setUserName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect (() => {
+      localStorage.removeItem("token")
+  },[]); 
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,6 +37,7 @@ const LoginPage = () => {
         email: email,
         password: password,
       });
+      fetchCurrentUser();
       navigate("/home");
     } catch (error: any) {
       setErrorMessage(error.message);
@@ -43,6 +52,7 @@ const LoginPage = () => {
         email: email,
         password: password,
       });
+      fetchCurrentUser();
       navigate("/home");
     } catch (error: any) {
       setErrorMessage(error.message || "ログインに失敗しました");

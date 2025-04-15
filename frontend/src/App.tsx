@@ -13,29 +13,29 @@ import { getCurrentUser } from "./services/userApi";
 function App() {
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setUser(null);
-        return;
-      }
+  const fetchCurrentUser = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setUser(null);
+      return;
+    }
 
-      try {
-        const userData = await getCurrentUser();
-        if (userData) {
-          setUser(userData);
-        } else {
-          localStorage.removeItem('token');
-          setUser(null);
-        }
-      } catch (error) {
-        console.error("ユーザー情報の取得に失敗しました:", error);
+    try {
+      const userData = await getCurrentUser();
+      if (userData) {
+        setUser(userData);
+      } else {
         localStorage.removeItem('token');
         setUser(null);
       }
-    };
+    } catch (error) {
+      console.error("ユーザー情報の取得に失敗しました:", error);
+      localStorage.removeItem('token');
+      setUser(null);
+    }
+  };
 
+  useEffect(() => {
     fetchCurrentUser();
 
     // トークン変更時のイベントリスナー
@@ -80,7 +80,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage fetchCurrentUser={fetchCurrentUser} />} />
         </Route>
       </Routes>
     </BrowserRouter>
