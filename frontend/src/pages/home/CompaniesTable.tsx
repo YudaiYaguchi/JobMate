@@ -1,8 +1,9 @@
 import { Company } from "../../types/Company";
-import { Table, Thead, Tbody, Tr, Th, VStack, TableContainer } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, VStack, TableContainer, Td} from "@chakra-ui/react";
 import { FC, useState, useEffect } from "react";
 import AddCompany from "./AddCompany";
 import CompanyListItem from "./CompanyListItem";
+import EmptyCompanyList from "./EmptyCompanyList";
 
 
 type CompaniesTableProps = {
@@ -33,9 +34,17 @@ const CompaniesTable: FC<CompaniesTableProps> = (props) => {
             </Tr>
           </Thead>
           <Tbody>
-            {companyList.map((company) => (
+          {companyList.length > 0 ? ( 
+            companyList.map((company) => (
               <CompanyListItem key={company.id} company={company} />
-            ))}
+            ))
+          ):(
+            <Tr>
+            <Td colSpan={5} p="0px 8px" textAlign="center">
+              <EmptyCompanyList />
+            </Td>
+          </Tr>
+          )}
           </Tbody>
         </Table>
       </TableContainer>
