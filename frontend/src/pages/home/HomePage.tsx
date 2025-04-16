@@ -78,7 +78,7 @@ const HomePage: FC<HomePageProps> = (user) => {
             </HStack>
           </Flex>
         </HStack>
-        <HStack w="full" gap={4} p="10px 5%" pb="4" bg="gray.50" align="stretch">
+        <HStack w="full" gap={4} p="10px 5%" pb="8" bg="gray.50" align="stretch">
           <Box w="50%" pr="0px" pl="0" pb="0px" >
             <QuestionAccordion questionList={questionList} />
           </Box>

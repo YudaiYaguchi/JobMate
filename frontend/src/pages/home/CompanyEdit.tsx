@@ -56,7 +56,7 @@ const CompanyEdit: FC<CompanyEditProps> = ({ company, handleEditButton, handleDe
   };
 
   return (
-    <Tr fontFamily="sans-serif" fontStyle="normal" fontWeight="normal" bg="gray.200">
+    <Tr fontFamily="sans-serif" fontStyle="normal" fontWeight="normal" bg="blue.100">
       <Td textAlign="left" pb="0px" pt="0px" pl="2" w="30%" border="1px solid #ddd">
         <HStack>
           <HStack w="auto" gap="2">
