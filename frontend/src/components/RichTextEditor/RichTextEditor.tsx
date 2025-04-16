@@ -55,6 +55,7 @@ const RichTextEditor: FC<RichTextEditorProps> = ({ message }) => {
         borderColor={isFocused ? "blue" : "#4A4A4A"}
         borderWidth="1px"
         w="full"
+        minH={"200px"}
         _hover={{ borderColor: "blue" }}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}>

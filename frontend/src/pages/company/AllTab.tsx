@@ -19,7 +19,7 @@ type AllTagProps = {
 const AllTag: FC<AllTagProps> = ({ company }) => {
 
   return (
-    <Tabs variant="enclosed-colored" colorScheme="blue" >
+    <Tabs variant="enclosed-colored" colorScheme="blue" w="full">
       <TabList>
         <Tab>企業研究</Tab>
         <Tab>ES</Tab>
@@ -29,8 +29,8 @@ const AllTag: FC<AllTagProps> = ({ company }) => {
       </TabList>
       <TabPanels>
         <TabPanel p="0">
-          <CompanyResearch />
-        </TabPanel>
+          < CompanyResearch />
+        </TabPanel >
         <TabPanel p="0">
           <EntrySheet />
         </TabPanel>
@@ -43,8 +43,8 @@ const AllTag: FC<AllTagProps> = ({ company }) => {
         <TabPanel p="0">
 
         </TabPanel>
-      </TabPanels>
-    </Tabs>
+      </TabPanels >
+    </Tabs >
   );
 };
 
