@@ -16,10 +16,17 @@ type QuestionAccordionProps = {
 };
 
 const QuestionAccordion: FC<QuestionAccordionProps> = ({ questionList }) => {
+  const getRandomQuestionList = (questions: Question[], count: number) => {
+    const shuffled = [...questions].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
+
+  const randomQuestionList = getRandomQuestionList(questionList, 5);
+
   return (
     <VStack w="full" align="stretch" bg="white">
       <Accordion allowMultiple>
-        {questionList.map((question, index) => (
+        {randomQuestionList.map((question, index) => (
           <AccordionItem key={index}>
             <Text>
               <AccordionButton _expanded={{ bg: "blue.100" }} px={4} py={3}>
@@ -29,11 +36,7 @@ const QuestionAccordion: FC<QuestionAccordionProps> = ({ questionList }) => {
                 <AccordionIcon />
               </AccordionButton>
             </Text>
-            <AccordionPanel pb={4} px={4}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
+            <AccordionPanel pb={4} px={4} whiteSpace="pre-wrap">
               {question.answer ?? "回答がまだ登録されていません"}
             </AccordionPanel>
           </AccordionItem>

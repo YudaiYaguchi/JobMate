@@ -49,7 +49,6 @@ export const getCurrentUser = async () => {
   try {
     const res = await apiAxios.get("users/get_current_user_info");
     const user: User = res.data;
-    console.log("ユーザー情報:", user);
     return user;
   } catch (error) {
     console.error("ユーザー情報の取得に失敗しました:", error);

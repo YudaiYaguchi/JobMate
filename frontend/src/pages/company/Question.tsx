@@ -25,7 +25,7 @@ const Question = () => {
   const {
     loading,
     error,
-    questions,
+    questionList,
     fetchQuestionsByCompany,
     createNewQuestion,
     updateExistingQuestion,
@@ -34,7 +34,7 @@ const Question = () => {
 
   const [newQuestion, setNewQuestion] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
-  
+
   // 編集中の質問の状態管理
   const [editStates, setEditStates] = useState<{
     [key: number]: {
@@ -134,14 +134,14 @@ const Question = () => {
         answer: newAnswer,
         company_id: companyId
       });
-      
+
       setNewQuestion("");
       setNewAnswer("");
     }
   };
 
   // ローディング中の表示
-  if (loading && questions.length === 0) {
+  if (loading && questionList.length === 0) {
     return (
       <Box textAlign="center" py={10}>
         <Spinner size="xl" />
@@ -198,11 +198,11 @@ const Question = () => {
         <Text fontSize="lg" fontWeight="bold">
           質問・回答
         </Text>
-        
-        {questions.length === 0 ? (
+
+        {questionList.length === 0 ? (
           <Text color="gray.500">登録された質問・回答はありません。</Text>
         ) : (
-          questions.map((item) => (
+          questionList.map((item) => (
             <Box
               key={item.id}
               p={4}

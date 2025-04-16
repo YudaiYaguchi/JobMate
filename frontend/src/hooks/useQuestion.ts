@@ -13,7 +13,7 @@ type QuestionInput = Omit<Question, 'id' | 'created_at' | 'updated_at'>;
 interface QuestionHook {
   loading: boolean;
   error: string | null;
-  questions: Question[];
+  questionList: Question[];
   fetchQuestions: () => Promise<void>;
   fetchQuestionsByCompany: (companyId: number) => Promise<void>;
   fetchQuestionById: (id: number) => Promise<Question | null>;
@@ -25,14 +25,14 @@ interface QuestionHook {
 export const useQuestion = (): QuestionHook => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questionList, setQuestionList] = useState<Question[]>([]);
 
   const fetchQuestions = async (): Promise<void> => {
     try {
       setLoading(true);
       setError(null);
       const data = await getQuestions();
-      setQuestions(data);
+      setQuestionList(data);
     } catch (err) {
       setError('質問の取得に失敗しました');
       console.error(err);
@@ -48,7 +48,7 @@ export const useQuestion = (): QuestionHook => {
       const data = await getQuestions();
       // 会社IDでフィルタリング
       const filteredData = data.filter((question: Question) => question.company_id === companyId);
-      setQuestions(filteredData);
+      setQuestionList(filteredData);
     } catch (err) {
       setError('質問の取得に失敗しました');
       console.error(err);
@@ -78,7 +78,7 @@ export const useQuestion = (): QuestionHook => {
       setError(null);
       const response = await createQuestion(data);
       // 新しい質問をリストに追加
-      setQuestions([...questions, response]);
+      setQuestionList([...questionList, response]);
       return response;
     } catch (err) {
       setError('質問の作成に失敗しました');
@@ -95,7 +95,7 @@ export const useQuestion = (): QuestionHook => {
       setError(null);
       const response = await updateQuestion(id, data);
       // 更新された質問でリストを更新
-      setQuestions(questions.map(question => question.id === id ? response : question));
+      setQuestionList(questionList.map(question => question.id === id ? response : question));
       return response;
     } catch (err) {
       setError('質問の更新に失敗しました');
@@ -112,7 +112,7 @@ export const useQuestion = (): QuestionHook => {
       setError(null);
       await deleteQuestion(id);
       // 削除された質問をリストから削除
-      setQuestions(questions.filter(question => question.id !== id));
+      setQuestionList(questionList.filter(question => question.id !== id));
       return true;
     } catch (err) {
       setError('質問の削除に失敗しました');
@@ -126,7 +126,7 @@ export const useQuestion = (): QuestionHook => {
   return {
     loading,
     error,
-    questions,
+    questionList,
     fetchQuestions,
     fetchQuestionsByCompany,
     fetchQuestionById,

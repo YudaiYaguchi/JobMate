@@ -60,7 +60,6 @@ const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate, handleCompanyCreat
     try {
       const res = await createCompany(data);
       handleCompanyCreate(res)
-      console.log(res);
       setSuccessCreate(true);
       onClose();
     } catch (error) {

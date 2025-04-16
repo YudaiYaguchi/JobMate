@@ -47,7 +47,6 @@ export const getQuestionById = async (id: number | string): Promise<Question> =>
 // 新しい質問の作成
 export const createQuestion = async (questionData: Omit<Question, 'id' | 'created_at' | 'updated_at'>): Promise<Question> => {
   try {
-    console.log(questionData);
     const response = await apiAxios.post('questions/create', questionData);
     return response.data;
   } catch (error) {
