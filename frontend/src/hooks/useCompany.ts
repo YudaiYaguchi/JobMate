@@ -4,7 +4,7 @@ import { getCompany, getCompanyById } from '../services/companyApi';
 import { useLoadingError } from '../hooks/useLoadingError';
 
 export const useCompanies = () => {
-  const [companList, setCompanyList] = useState<Company[]>([]);
+  const [companyList, setCompanyList] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
 
@@ -26,7 +26,7 @@ export const useCompanies = () => {
   const { isLoading, error: loadingError } = useLoadingError([{ loading, error }]);
 
   return {
-    companList: companList,
+    companyList: companyList,
     loading: isLoading,
     error: loadingError
   };
