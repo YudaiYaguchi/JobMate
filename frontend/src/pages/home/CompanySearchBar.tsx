@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { IoIosSearch } from "react-icons/io";
 import { FC, useState } from "react";
-import { color } from "framer-motion";
 import { Link } from "react-router-dom";
 
 type CompanySearchBarProps = {
