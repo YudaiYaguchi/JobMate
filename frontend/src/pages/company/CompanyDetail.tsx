@@ -12,18 +12,19 @@ type CompanyDetailProps = {
 const CompanyDetail: FC<CompanyDetailProps> = ({ company }) => {
   return (
     <>
-      <Box pl="0" bg="gray.50" borderLeft="4px" borderColor="blue.800">
+      <Box pl="4" bg="gray.50" >
         <HStack gap="1" align="start" p="10px" wrap="wrap">
-          <Text>選考種類：</Text><Text color="red">{company.selection_type}</Text>
-          <Text pl="6">選考状況：</Text><Text color="purple">{company.selection_status}</Text>
-          <Text pl="6">選考日：</Text><Text color="green">{company.selection_date}</Text>
-          <Text pl="6">選考結果：</Text><Text color="orange">{company.selection_result}</Text>
+          <Text>選考種類：</Text><Text color="blue.600">{company.selection_type}</Text>
+          <Text pl="6">選考状況：</Text><Text color="blue.600">{company.selection_status}</Text>
+          <Text pl="6">選考日：</Text><Text color="blue.600">{company.selection_date}</Text>
+          <Text pl="6">選考結果：</Text><Text color="blue.600">{company.selection_result}</Text>
           <Text pl="6">マイページURL：</Text>
           <Link to={`http://localhost:3000/landing`}>
             <HStack
               role="group"
               color="blue.600"
-              _hover={{ color: "blue", textDecoration: "underline" }}
+              textDecoration="underline"
+              _hover={{ color: "blue" }}
               cursor="pointer"
             >
               <Text>マイページを確認</Text>
