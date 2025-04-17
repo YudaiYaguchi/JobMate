@@ -53,7 +53,7 @@ const HomePage: FC<HomePageProps> = (user) => {
             <Text fontWeight="bold" fontSize="20px">
               選考中の企業
             </Text>
-            <CompanySearchBar />
+            <CompanySearchBar companyList={companList} />
             <FilterBar />
           </HStack>
         </Box>
