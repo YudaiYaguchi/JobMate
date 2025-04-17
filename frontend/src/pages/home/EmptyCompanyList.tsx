@@ -3,10 +3,10 @@ import { HStack, Table, Td, Thead, Tr, Text } from "@chakra-ui/react";
 const EmptyCompanyList = () => {
   return (
     <>
-      <Table variant="simple">
+      <Table h="240px" variant="simple">
         <Thead>
           <Tr>
-            <Td p="0px 8px" bg="white" textAlign="center">
+            <Td p="0" bg="white" textAlign="center">
               <HStack
                 h="100px"
                 justifyContent="center"
@@ -59,4 +59,3 @@ const EmptyCompanyList = () => {
 };
 
 export default EmptyCompanyList;
-  

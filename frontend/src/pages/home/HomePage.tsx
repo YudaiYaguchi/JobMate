@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { HStack, Text, Box, Flex, Input } from "@chakra-ui/react";
 import { FaBuilding, FaQuestionCircle } from "react-icons/fa";
 import { CiMemoPad } from "react-icons/ci";
@@ -9,8 +9,10 @@ import CompaniesTable from "./CompaniesTable";
 import QuestionAccordion from "./QuestionAccordion ";
 import Todo from "./Todo";
 import CompanySearchBar from "./CompanySearchBar";
-import FilterBar from "./FilterBar";
+import FilterBar, { FilterTag } from "./FilterBar";
 import { useQuestion } from "../..//hooks/useQuestion";
+import { Company } from "../../types/Company";
+import { Question } from "../../types/Question";
 
 type HomePageProps = {
   user: User | null
@@ -18,21 +20,40 @@ type HomePageProps = {
 
 const HomePage: FC<HomePageProps> = (user) => {
   const {
-    companList,
+    companyList: initialCompanyList,
     loading: companyLoading,
     error: companyError,
   } = useCompanies();
 
   const {
-    questionList,
+    questionList: initialQuestionList,
     loading: questionLoading,
     error: questionError,
-    fetchQuestions
+    fetchQuestions,
   } = useQuestion();
 
   useEffect(() => {
     fetchQuestions();
   }, []);
+
+  const [companyList, setCompanyList] = useState<Company[]>(initialCompanyList || []);
+  const [questionList, setQuestionList] = useState<Question[]>(initialQuestionList || []);
+
+  useEffect(() => {
+    setCompanyList(initialCompanyList || []);
+  }, [initialCompanyList]);
+
+  useEffect(() => {
+    setQuestionList(initialQuestionList || []);
+  }, [initialQuestionList]);
+
+  const handleOnFilter = (filteredList: Company[], filterKey: string) => {
+    if (filterKey === FilterTag.ALL) {
+      setCompanyList(initialCompanyList);
+    } else {
+      setCompanyList(filteredList);
+    }
+  };
 
   if (companyLoading) return <Loading />;
   if (questionLoading) return <Loading />
@@ -53,11 +74,14 @@ const HomePage: FC<HomePageProps> = (user) => {
             <Text fontWeight="bold" fontSize="20px">
               選考中の企業
             </Text>
-            <CompanySearchBar companyList={companList} />
-            <FilterBar />
+            <CompanySearchBar companyList={companyList} />
+            {companyList.length > 0 && (
+              <FilterBar companyList={companyList} handleOnFilter={handleOnFilter} />
+            )}
+
           </HStack>
         </Box>
-        <CompaniesTable companyList={companList} />
+        <CompaniesTable companyList={companyList} />
         <HStack p="20px 5%" pb="0" w="100%" alignItems="flex-start">
           {/* 質問一覧 */}
           <Flex w="50%" justifyContent="flex-start" align="center">
