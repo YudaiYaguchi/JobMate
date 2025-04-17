@@ -8,7 +8,7 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Question } from "@/types/Question";
 
 type QuestionAccordionProps = {
@@ -16,12 +16,17 @@ type QuestionAccordionProps = {
 };
 
 const QuestionAccordion: FC<QuestionAccordionProps> = ({ questionList }) => {
-  const getRandomQuestionList = (questions: Question[], count: number) => {
-    const shuffled = [...questions].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-  };
+  const [randomQuestionList, setRandomQuestionList] = useState<Question[]>([]);
 
-  const randomQuestionList = getRandomQuestionList(questionList, 5);
+  useEffect(() => {
+    const getRandomQuestionList = (questions: Question[], count: number) => {
+      const shuffled = [...questions].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+    };
+
+    const selectedQuestions = getRandomQuestionList(questionList, 5);
+    setRandomQuestionList(selectedQuestions);
+  }, [questionList]);
 
   return (
     <VStack w="full" align="stretch" bg="white">
