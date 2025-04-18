@@ -3,6 +3,7 @@
 git clone https://github.com/YudaiYaguchi/JobMate.git
 docker compose up
 docker compose exec backend rails db:create
+docker compose exec backend rails db:migrate
 Rails: docker compose exec backend rails s -b '0.0.0.0'
 React: docker compose exec frontend npm start
 
@@ -17,10 +18,15 @@ docker compose exec frontend bash
 
 ### エラー対処
 ```bash
+exec /usr/bin/entrypoint.sh: no such file or directory
+→改行コードCRLFからLFに変更
+
 docker compose run backend bash -c "mkdir -p log && touch log/development.log"
 
 フロントエンドが動かない
 docker compose exec frontend npm install
+docker compose exec frontend npm install --legacy-peer-deps
+
 ```
 
 ### 本番環境にリリース
