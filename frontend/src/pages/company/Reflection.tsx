@@ -1,4 +1,4 @@
-import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
+import RichTextEditor from "../../components/rich-text-editor/RichTextEditor";
 
 const Reflection = () => {
   return (
