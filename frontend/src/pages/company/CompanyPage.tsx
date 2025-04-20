@@ -7,7 +7,6 @@ import {
   VStack,
   Flex,
   HStack,
-  Badge,
 } from "@chakra-ui/react";
 import { getCompanyById } from "../../services/companyApi";
 import { Company } from "../../types/Company";
@@ -66,24 +65,6 @@ const CompanyPage = () => {
 
       </Flex >
     </>
-    // <Box p={10} maxW="1200px" mx="auto">
-    //   <Flex
-    //     mb={2}
-    //     borderRadius="md"
-    //     align="center"
-    //     justify="space-between"
-    //   >
-    //     <Box flex="1" p={4}>
-    //       <VStack w="100%" align="center" justify="center">
-    //         <Heading size="lg" fontWeight="bold" textShadow="2px 2px 5px rgba(0, 0, 0, 0.3)" >
-    //           {company.name}
-    //         </Heading>
-    //       </VStack>
-    //     </Box>
-    //     <CompanyDetail company={company} />
-    //   </Flex>
-    //   <AllTab company={company} />
-    // </Box>
   );
 };
 
