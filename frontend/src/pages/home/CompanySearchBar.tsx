@@ -11,6 +11,7 @@ import {
   PopoverBody,
   VStack,
   Text,
+  HStack,
 } from "@chakra-ui/react";
 import { IoIosSearch } from "react-icons/io";
 import { FC, useState } from "react";
@@ -65,7 +66,10 @@ const CompanySearchBar: FC<CompanySearchBarProps> = ({ companyList }) => {
               {filteredCompanies.length > 0 && companyList.length != filteredCompanies.length ? (
                 filteredCompanies.map((company) => (
                   <Link to={`/company/${company.id}`}>
-                    <Text color="blue" _hover={{ textDecoration: "underline" }}>{company.name}</Text>
+                    <HStack>
+                      <IoIosSearch color='gray' size="18px" />
+                      <Text color='gray.600' _hover={{ textDecoration: "underline" }}>{company.name}</Text>
+                    </HStack>
                   </Link>
                 ))
               ) : (
