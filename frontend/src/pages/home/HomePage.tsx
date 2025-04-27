@@ -13,6 +13,7 @@ import FilterBar, { FilterTag } from "./FilterBar";
 import { useQuestion } from "../..//hooks/useQuestion";
 import { Company } from "../../types/Company";
 import { Question } from "../../types/Question";
+import SummaryCards from "./SummaryCards";
 
 type HomePageProps = {
   user: User | null
@@ -61,7 +62,8 @@ const HomePage: FC<HomePageProps> = (user) => {
   return (
     <>
       <Box bg="gray.50">
-        <Box pt="8" px="5%">
+        <Box pt="8" px="2.5%">
+          <SummaryCards />
           <HStack
             p="4px 0"
             w="full"
@@ -82,7 +84,7 @@ const HomePage: FC<HomePageProps> = (user) => {
           </HStack>
         </Box>
         <CompaniesTable companyList={companyList} />
-        <HStack p="20px 5%" pb="0" w="100%" alignItems="flex-start">
+        <HStack p="20px 2.5%" pb="0" w="100%" alignItems="flex-start">
           {/* 質問一覧 */}
           <Flex w="50%" justifyContent="flex-start" align="center">
             <HStack spacing="8px" w="full" color="white" bg="blue.500" borderLeft="4px" borderColor="blue.800">
@@ -102,7 +104,7 @@ const HomePage: FC<HomePageProps> = (user) => {
             </HStack>
           </Flex>
         </HStack>
-        <HStack w="full" gap={4} p="10px 5%" pb="8" bg="gray.50" align="stretch">
+        <HStack w="full" gap={4} p="10px 2.5%" pb="8" bg="gray.50" align="stretch">
           <Box w="50%" pr="0px" pl="0" pb="0px" >
             <QuestionAccordion questionList={questionList} />
           </Box>
