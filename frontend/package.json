@@ -30,10 +30,9 @@
     "zod": "^3.24.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
   },
   "eslintConfig": {
     "extends": [
@@ -55,6 +54,7 @@
   },
   "devDependencies": {
     "@chakra-ui/icons": "^2.2.4",
+    "@craco/craco": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^8.25.0",
     "@typescript-eslint/parser": "^8.25.0"
   }
