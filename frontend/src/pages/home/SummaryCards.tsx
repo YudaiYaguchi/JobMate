@@ -1,6 +1,7 @@
 import { SimpleGrid, GridItem, Box, Flex, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
 import { FC } from "react";
-import { FaFilter, FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt } from "react-icons/fa";
+import { FaArrowTrendUp } from "react-icons/fa6";
 import { CheckCircleIcon, TimeIcon } from "@chakra-ui/icons";
 type SummaryCardsProps = {
 }
@@ -26,7 +27,7 @@ const SummaryCards: FC<SummaryCardsProps> = () => {
               h="40px"
               borderRadius="full"
             >
-              <Box as={FaFilter} />
+              <Box as={FaArrowTrendUp} />
             </Flex>
           </Flex>
         </Box>
@@ -86,8 +87,8 @@ const SummaryCards: FC<SummaryCardsProps> = () => {
             <Flex
               align="center"
               justify="center"
-              bg="purple.100"
-              color="purple.600"
+              bg="red.100"
+              color="red.600"
               w="40px"
               h="40px"
               borderRadius="full"

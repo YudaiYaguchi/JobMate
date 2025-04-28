@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from "react";
-import { HStack, Text, Box, Flex, Input } from "@chakra-ui/react";
+import { HStack, Text, Box, Flex, Circle } from "@chakra-ui/react";
 import { FaBuilding, FaQuestionCircle } from "react-icons/fa";
 import { CiMemoPad } from "react-icons/ci";
+import { BsBuildingCheck } from "react-icons/bs";
 import { Loading } from "../../components/Loading";
 import { useCompanies } from "../../hooks/useCompany";
 import { User } from "@/types/User";
@@ -61,8 +62,17 @@ const HomePage: FC<HomePageProps> = (user) => {
 
   return (
     <>
-      <Box bg="gray.50">
-        <Box pt="8" px="2.5%">
+      <Box bg="gray.50" px="2.5%">
+        <Box pt="8">
+          <Flex align="center" gap={3} mb={3}>
+            <BsBuildingCheck size={30} />
+            <Box>
+              <Text fontSize='lg' fontWeight="bold" color="gray.900">
+                選考管理ダッシュボード
+              </Text>
+              <Text color="gray.500">就職活動の進捗を一目で確認</Text>
+            </Box>
+          </Flex>
           <SummaryCards />
           <HStack
             p="4px 0"
