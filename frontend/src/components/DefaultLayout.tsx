@@ -82,13 +82,16 @@ export const DefaultLayout: FC<LayoutProps> = ({ user }) => {
                 padding="8px"
                 spacing="12px"
               >
-                <FaBell cursor="pointer" color='white' />
+                <Flex align='center' gap={1} cursor='pointer' >
+                  <FaBell color='white' />
+                  <Text color='white' display={{ base: 'none', md: 'block' }} >通知</Text>
+                </Flex>
                 <HStack>
                   <Menu>
                     <MenuButton as={Button} color='white' rightIcon={<ChevronDownIcon />} variant="ghost" _hover='none' _active='none'>
-                      <Flex align="center" gap={2}>
-                        <Avatar size="sm" bg='white' color='black' name={user.name} src="/placeholder-user.jpg" />
-                        <Text color='white' display={{ base: "none", md: "block" }}>{user.name}</Text>
+                      <Flex align="center" gap={1}>
+                        <Avatar size='xs' bg='white' color='black' name={user.name} src="/placeholder-user.jpg" />
+                        <Text color='white' display={{ base: "none", md: "block" }} fontWeight="normal">{user.name}</Text>
                       </Flex>
                     </MenuButton>
                     <MenuList color="black">
