@@ -11,3 +11,12 @@ export type Company = {
   created_at: string;
   updated_at: string;
 };
+
+export type InputCompany = {
+  id: number;
+  name: string;
+  selection_type: string;
+  selection_status: string;
+  selection_date: string;
+  selection_result: string;
+};

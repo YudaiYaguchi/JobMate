@@ -19,18 +19,20 @@ import { FaBuilding } from "react-icons/fa";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { string, z } from "zod";
-import { selectionTypeList, selectionStatusList, selectionResultList } from "./selectionOptions";
-import { createCompany } from "../../services/companyApi";
+import { selectionTypeList, selectionStatusList, selectionResultList } from "@/constants/selectionOptions";
+import { updateCompany } from "@/services/companyApi";
 import { Company } from "@/types/Company";
 
-type AddCompanyModalProps = {
+type CompanyModalProps = {
+  company: Company;
   isOpen: boolean;
   onClose: () => void;
-  setSuccessCreate: React.Dispatch<React.SetStateAction<boolean>>;
-  handleCompanyCreate: (newComapny: Company) => void;
+  setSuccessUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  handleCompanyUpdate: (updateCompany: Company) => void;
 };
 
 const schema = z.object({
+  id: z.number(),
   name: z.string().min(1, "企業名を入力してください"),
   selection_type: string(),
   selection_status: string(),
@@ -40,7 +42,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate, handleCompanyCreate }: AddCompanyModalProps) => {
+const CompanyModal = ({ company, isOpen, onClose, setSuccessUpdate, handleCompanyUpdate }: CompanyModalProps) => {
   const {
     control,
     handleSubmit,
@@ -48,22 +50,23 @@ const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate, handleCompanyCreat
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: "",
-      selection_type: "",
-      selection_status: "",
-      selection_date: "",
-      selection_result: "",
+      id: company?.id,
+      name: company?.name || "",
+      selection_type: company?.selection_type || "",
+      selection_status: company?.selection_status || "",
+      selection_date: company?.selection_date || "",
+      selection_result: company?.selection_result || "",
     },
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const res = await createCompany(data);
-      handleCompanyCreate(res)
-      setSuccessCreate(true);
+      const res: Company = await updateCompany(data);
+      handleCompanyUpdate(res);
+      setSuccessUpdate(true);
       onClose();
     } catch (error) {
-      setSuccessCreate(false);
+      setSuccessUpdate(false);
     }
   };
 
@@ -74,7 +77,7 @@ const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate, handleCompanyCreat
         <ModalHeader>
           <HStack>
             <FaBuilding />
-            <Text>新規企業を登録</Text>
+            <Text>企業情報を編集</Text>
           </HStack>
         </ModalHeader>
         <ModalCloseButton />
@@ -96,7 +99,7 @@ const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate, handleCompanyCreat
             </FormControl>
 
             {/* 選考種類 */}
-            <FormControl isInvalid={!!errors.selection_type} p="3%">
+            <FormControl isRequired isInvalid={!!errors.selection_type} p="3%">
               <HStack spacing={4} align="center">
                 <FormLabel minW="100px" m="0">
                   選考種類
@@ -190,4 +193,4 @@ const AddCompanyModal = ({ isOpen, onClose, setSuccessCreate, handleCompanyCreat
   );
 };
 
-export default AddCompanyModal;
+export default CompanyModal;

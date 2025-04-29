@@ -1,10 +1,17 @@
-import { HStack, Tag } from "@chakra-ui/react";
-import { Company } from "../../types/Company";
+import { HStack, IconButton, Tag, Text } from "@chakra-ui/react";
+import { Company } from "../../../types/Company";
 import { FC, useEffect, useState } from "react";
+import { FaSortAmountUpAlt } from "react-icons/fa";
+import {
+  FiGrid,
+  FiColumns,
+} from "react-icons/fi"
 
 type FilterBarProps = {
   companyList: Company[];
+  view: "grid" | "kanban";
   handleOnFilter: (companyList: Company[], filterKey: FilterTag) => void;
+  handleToggleComponent: () => void;
 };
 
 export enum FilterTag {
@@ -14,11 +21,12 @@ export enum FilterTag {
   THIS_WEEK = "今週中",
 }
 
-const FilterBar: FC<FilterBarProps> = ({ companyList, handleOnFilter }) => {
+const FilterBar: FC<FilterBarProps> = ({ companyList, view, handleOnFilter, handleToggleComponent }) => {
   const [allCompanyList, setAllCompanyList] = useState<Company[]>(companyList);
   const [selectingCompanyList, setSelectingCompanyList] = useState<Company[]>([]);
   const [soonCompanyList, setSoonCompanyList] = useState<Company[]>([]);
   const [thisWeekCompanyList, setThisWeekCompanyList] = useState<Company[]>([]);
+
 
   const filterTags = [
     {
@@ -107,7 +115,11 @@ const FilterBar: FC<FilterBarProps> = ({ companyList, handleOnFilter }) => {
   }, []);
 
   return (
-    <HStack spacing={4}>
+    <HStack ml={10} spacing={3}>
+      <FaSortAmountUpAlt />
+      <Text pl={0} variant="outline" size="sm" >
+        並び替え
+      </Text>
       {filterTags.map((tag) => (
         <Tag
           key={tag.label}
@@ -127,7 +139,29 @@ const FilterBar: FC<FilterBarProps> = ({ companyList, handleOnFilter }) => {
         </Tag>
       ))
       }
-    </HStack >
+      <HStack spacing={0} border="1px solid" borderColor="gray.200" borderRadius="md" overflow="hidden">
+        <IconButton
+          aria-label="Grid view"
+          icon={<FiGrid />}
+          variant={view === "grid" ? "solid" : "ghost"}
+          colorScheme={view === "grid" ? "blue" : "gray"}
+          size="sm"
+          h={10}
+          borderRadius="none"
+          onClick={handleToggleComponent}
+        />
+        <IconButton
+          aria-label="Kanban view"
+          icon={<FiColumns />}
+          variant={view === "kanban" ? "solid" : "ghost"}
+          colorScheme={view === "kanban" ? "blue" : "gray"}
+          size="sm"
+          h={10}
+          borderRadius="none"
+          onClick={handleToggleComponent}
+        />
+      </HStack>
+    </HStack>
   );
 };
 

@@ -1,20 +1,21 @@
 import { FC, useEffect, useState } from "react";
-import { HStack, Text, Box, Flex, Circle } from "@chakra-ui/react";
-import { FaBuilding, FaQuestionCircle } from "react-icons/fa";
+import { HStack, Text, Box, Flex, Spacer } from "@chakra-ui/react";
+import { FaQuestionCircle, FaRegBuilding } from "react-icons/fa";
 import { CiMemoPad } from "react-icons/ci";
 import { BsBuildingCheck } from "react-icons/bs";
-import { Loading } from "../../components/Loading";
-import { useCompanies } from "../../hooks/useCompany";
+import { useCompanies } from "@/hooks/useCompany";
 import { User } from "@/types/User";
-import CompaniesTable from "./CompaniesTable";
-import QuestionAccordion from "./QuestionAccordion ";
-import Todo from "./Todo";
-import CompanySearchBar from "./CompanySearchBar";
-import FilterBar, { FilterTag } from "./FilterBar";
-import { useQuestion } from "../..//hooks/useQuestion";
-import { Company } from "../../types/Company";
-import { Question } from "../../types/Question";
-import SummaryCards from "./SummaryCards";
+import { useQuestion } from "@/hooks/useQuestion";
+import { Company } from "@/types/Company";
+import { Question } from "@/types/Question";
+import { Loading } from "@/components/Loading";
+import SummaryCards from "./components/SummaryCards";
+import CompanyList from "./components/company-list/CompanyList";
+import AddCompany from "./components/add-company/AddCompany";
+import CompanySearchBar from "./components/CompanySearchBar";
+import QuestionAccordion from "./components/QuestionAccordion ";
+import Todo from "./components/Todo";
+import FilterBar, { FilterTag } from "./components/FilterBar";
 
 type HomePageProps = {
   user: User | null
@@ -57,11 +58,30 @@ const HomePage: FC<HomePageProps> = (user) => {
     }
   };
 
-  if (companyLoading) return <Loading />;
-  if (questionLoading) return <Loading />
+  const [view, setView] = useState<"grid" | "kanban">("grid");
+  const handleToggleComponent = () => {
+    setView(view === "grid" ? "kanban" : "grid");
+  }
+
+  const handleCompanyCreate = (newCompany: Company) => {
+    setCompanyList((prevList) => [newCompany, ...prevList]);
+  };
+
+  const handleCompanyUpdate = (updatedCompany: Company) => {
+    setCompanyList((prevList) =>
+      prevList.map((company) => (company.id === updatedCompany.id ? updatedCompany : company))
+    );
+  }
+
+  const handleCompanyDelete = (deletedCompany: Company) => {
+    setCompanyList((prevList) =>
+      prevList.filter((company) => (company.id !== deletedCompany.id))
+    );
+  }
 
   return (
     <>
+      {companyLoading || questionLoading && <Loading />}
       <Box bg="gray.50" px="2.5%">
         <Box pt="8">
           <Flex align="center" gap={3} mb={3}>
@@ -77,23 +97,25 @@ const HomePage: FC<HomePageProps> = (user) => {
           <HStack
             p="4px 0"
             w="full"
-            bg="blue.500"
-            color="white"
-            borderLeft="4px"
-            borderColor="blue.800"
+            bg="white"
+            color="black"
           >
-            <FaBuilding size="20px" style={{ marginLeft: "16px" }} />
+            <FaRegBuilding size="20px" style={{ marginLeft: "16px" }} />
             <Text fontWeight="bold" fontSize="20px">
               選考中の企業
             </Text>
+            <Spacer />
+            <AddCompany handleCompanyCreate={handleCompanyCreate} />
+          </HStack>
+          <Flex justify='flex-end' align='center' pr={3} bg='white'>
             <CompanySearchBar companyList={companyList} />
             {companyList.length > 0 && (
-              <FilterBar companyList={companyList} handleOnFilter={handleOnFilter} />
+              <FilterBar companyList={companyList} view={view} handleOnFilter={handleOnFilter} handleToggleComponent={handleToggleComponent} />
             )}
-
-          </HStack>
+          </Flex>
         </Box>
-        <CompaniesTable companyList={companyList} />
+        <CompanyList companyList={companyList} view={view} handleCompanyUpdate={handleCompanyUpdate} handleCompanyDelete={handleCompanyDelete} />
+        {/* <CompaniesTable companyList={companyList} /> */}
         <HStack p="20px 2.5%" pb="0" w="100%" alignItems="flex-start">
           {/* 質問一覧 */}
           <Flex w="50%" justifyContent="flex-start" align="center">
@@ -122,7 +144,7 @@ const HomePage: FC<HomePageProps> = (user) => {
             <Todo />
           </Box>
         </HStack>
-      </Box>
+      </Box >
     </>
   );
 };
