@@ -19,11 +19,12 @@ import {
   IconButton,
   Box,
 } from "@chakra-ui/react";
-import { FiMoreHorizontal, FiEdit2, FiTrash2, FiCheck, FiCalendar } from "react-icons/fi";
+import { FiCheck, FiCalendar } from "react-icons/fi";
 import { Company } from "@/types/Company";
 import Toast from "@/components/Toast";
 import CompanyModal from "./CompanyModal";
 import { deleteCompany } from "@/services/companyApi";
+import ActionMenu from "@/components/ActionMenu";
 
 
 type CompanyCardProps = {
@@ -149,15 +150,7 @@ const CompanyCard: FC<CompanyCardProps> = ({ company, handleCompanyUpdate, handl
               )}
             </Box>
           </Flex>
-          <Menu>
-            <MenuButton as={IconButton} aria-label="Options" icon={<FiMoreHorizontal />} variant="ghost" size="sm" />
-            <MenuList>
-              <MenuItem icon={<FiEdit2 />} onClick={() => openModal()}>編集</MenuItem>
-              <MenuItem icon={<FiTrash2 />} color="red.600" onClick={() => handleDeleteConfirm()}>
-                削除
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          <ActionMenu onEdit={openModal} onDelete={handleDeleteConfirm} />
         </CardHeader>
 
         <CardBody>

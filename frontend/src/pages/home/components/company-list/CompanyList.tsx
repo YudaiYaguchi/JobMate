@@ -21,7 +21,7 @@ const CompanyList: FC<CompanyListProps> = ({ companyList, view, handleCompanyUpd
           ))}
         </SimpleGrid>
       ) : (
-        <CompanyKanban companyList={companyList} />
+        <CompanyKanban companyList={companyList} handleCompanyUpdate={handleCompanyUpdate} handleCompanyDelete={handleCompanyDelete} />
       )}
     </Box>
   );
