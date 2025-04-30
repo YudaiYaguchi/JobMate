@@ -1,8 +1,10 @@
 import { FC } from "react";
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import { Company } from "@/types/Company";
+import { FaRegBuilding } from "react-icons/fa";
 import CompanyKanban from "./CompanyKanban";
 import CompanyCard from "./CompanyCard";
+import EmptyState from "@/components/EmptyState";
 
 type CompanyListProps = {
   companyList: Company[];
@@ -13,7 +15,12 @@ type CompanyListProps = {
 
 const CompanyList: FC<CompanyListProps> = ({ companyList, view, handleCompanyUpdate, handleCompanyDelete }) => {
   return (
-    <Box mb={6}>
+    <Box pb={6} bg='white'>
+      {
+        companyList.length === 0 && (
+          <EmptyState icon={FaRegBuilding} message="登録された企業はありません" />
+        )
+      }
       {view === "grid" ? (
         <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} spacing={4}>
           {companyList.map((company) => (
