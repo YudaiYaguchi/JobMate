@@ -22,7 +22,7 @@ import {
 import { FiMoreHorizontal, FiEdit2, FiTrash2, FiCheck, FiCalendar } from "react-icons/fi";
 import { Company } from "@/types/Company";
 import Toast from "@/components/Toast";
-import CompanyModal from "@/components/CompanyModal";
+import CompanyModal from "./CompanyModal";
 import { deleteCompany } from "@/services/companyApi";
 
 
