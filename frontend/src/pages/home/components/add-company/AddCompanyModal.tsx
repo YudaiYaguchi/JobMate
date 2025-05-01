@@ -19,7 +19,7 @@ import { FaBuilding } from "react-icons/fa";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { string, z } from "zod";
-import { selectionTypeList, selectionStatusList, selectionResultList } from "@/constants/selectionOptions";
+import { selectionTypeList, selectionStatusList, selectionResultList } from "@/constants/selectionConstants";
 import { createCompany } from "@/services/companyApi";
 import { Company } from "@/types/Company";
 
