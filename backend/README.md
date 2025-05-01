@@ -33,3 +33,7 @@ Things you may want to cover:
 ```bash
   rails generate controller api/v1/users （例
 ```
+### model
+```bash
+  rails generate model Todo title:string date:date is_done:boolean priority:string user:references
+```
