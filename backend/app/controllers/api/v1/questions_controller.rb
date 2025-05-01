@@ -1,5 +1,4 @@
 class Api::V1::QuestionsController < ApplicationController
-  before_action :set_user
 
   def index
     @questions = Question.joins(:company).where(companies: { user_id: current_user.id })
@@ -58,10 +57,6 @@ class Api::V1::QuestionsController < ApplicationController
   end
 
   private
-
-  def set_user
-    @user = User.find(1) 
-  end
 
   def question_params
     params.permit(:question, :answer, :company_id)
