@@ -36,10 +36,6 @@ class Api::V1::CompaniesController < ApplicationController
     company_data = params.require(:company).permit(:name, :selection_type, :selection_status, :selection_date, :selection_result)
     company_data[:selection_date] = formatted_date(company_data[:selection_date]) # YYYY/MM/DD hh:mm　形式に変換
   
-    company_data.each do |key, value|
-      company_data[key] = "-" if value.blank?
-    end
-  
     if @company.update(company_data)
       render json: @company, status: :ok
     else
