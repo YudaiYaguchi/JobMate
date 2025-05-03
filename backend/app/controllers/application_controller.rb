@@ -34,4 +34,12 @@ class ApplicationController < ActionController::API
       nil
     end
   end
+
+  def formatted_date(date)
+    if date.present?
+      date&.gsub("T", " ")&.gsub("-", "/") # YYYY/MM/DD hh:mm　形式に変換
+    else
+      "-"
+    end 
+  end
 end
