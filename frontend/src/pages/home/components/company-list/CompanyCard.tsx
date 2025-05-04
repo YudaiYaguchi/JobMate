@@ -12,11 +12,6 @@ import {
   Button,
   Flex,
   Avatar,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  IconButton,
   Box,
 } from "@chakra-ui/react";
 import { FiCheck, FiCalendar } from "react-icons/fi";
@@ -89,18 +84,6 @@ const CompanyCard: FC<CompanyCardProps> = ({ company, handleCompanyUpdate, handl
     return colors[index];
   };
 
-  const formatDate = (dateString: string) => {
-    if (dateString === "-") return "-";
-
-    const selection_date = new Date(dateString);
-    const month = String(selection_date.getMonth() + 1).padStart(2, "0");
-    const day = String(selection_date.getDate()).padStart(2, "0");
-    const hours = String(selection_date.getHours()).padStart(2, "0");
-    const minutes = String(selection_date.getMinutes()).padStart(2, "0");
-
-    return `${month}/${day} ${hours}:${minutes}`;
-  };
-
   const handleDeleteConfirm = async () => {
     const isConfirmed = window.confirm(
       "本当に企業情報を削除してもよろしいでしょうか？\n削除された情報は復元できませんので、ご確認の上、操作を行ってください。"
@@ -170,7 +153,7 @@ const CompanyCard: FC<CompanyCardProps> = ({ company, handleCompanyUpdate, handl
 
           <Flex align="center" gap={2} fontSize="sm" color="gray.500" mt={3}>
             <FiCalendar size={14} />
-            <Text>次回選考: {formatDate(company.selection_date)}</Text>
+            <Text>次回選考: {company.selection_date}</Text>
           </Flex>
         </CardBody>
 
