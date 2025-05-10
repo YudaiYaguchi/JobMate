@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import { HStack, Text, Box, Flex, Spacer } from "@chakra-ui/react";
-import { FaQuestionCircle, FaRegBuilding } from "react-icons/fa";
-import { CiMemoPad } from "react-icons/ci";
+import { FaQuestion, FaRegBuilding } from "react-icons/fa";
 import { BsBuildingCheck } from "react-icons/bs";
+import { useTodo } from "@/hooks/useTodo";
 import { useCompanies } from "@/hooks/useCompany";
-import { User } from "@/types/User";
 import { useQuestion } from "@/hooks/useQuestion";
+import { User } from "@/types/User";
 import { Company } from "@/types/Company";
 import { Question } from "@/types/Question";
 import { Loading } from "@/components/Loading";
@@ -14,7 +14,7 @@ import CompanyList from "./components/company-list/CompanyList";
 import AddCompany from "./components/add-company/AddCompany";
 import CompanySearchBar from "./components/CompanySearchBar";
 import QuestionAccordion from "./components/QuestionAccordion ";
-import Todo from "./components/Todo";
+import TodoList from "./components/todo-list/TodoList";
 import FilterBar, { FilterTag } from "./components/FilterBar";
 
 type HomePageProps = {
@@ -22,6 +22,15 @@ type HomePageProps = {
 };
 
 const HomePage: FC<HomePageProps> = (user) => {
+  const {
+    todos,
+    loading: todoLoading,
+    error: todoError,
+    handleCreateTodo,
+    handleUpdateTodo,
+    handleDeleteTodo,
+  } = useTodo();
+
   const {
     companyList: initialCompanyList,
     loading: companyLoading,
@@ -81,7 +90,7 @@ const HomePage: FC<HomePageProps> = (user) => {
 
   return (
     <>
-      {companyLoading || questionLoading && <Loading />}
+      {companyLoading || questionLoading || todoLoading && <Loading />}
       <Box bg="gray.50" px="2.5%">
         <Box pt="8">
           <Flex align="center" gap={3} mb={3}>
@@ -115,35 +124,23 @@ const HomePage: FC<HomePageProps> = (user) => {
           </Flex>
         </Box>
         <CompanyList companyList={companyList} view={view} handleCompanyUpdate={handleCompanyUpdate} handleCompanyDelete={handleCompanyDelete} />
-        {/* <CompaniesTable companyList={companyList} /> */}
-        <HStack p="20px 2.5%" pb="0" w="100%" alignItems="flex-start">
-          {/* 質問一覧 */}
-          <Flex w="50%" justifyContent="flex-start" align="center">
-            <HStack spacing="8px" w="full" color="white" bg="blue.500" borderLeft="4px" borderColor="blue.800">
-              <FaQuestionCircle size="20px" style={{ marginLeft: "16px" }} />
-              <Text fontWeight="bold" fontSize="20px">
-                質問一覧
-              </Text>
-            </HStack>
-          </Flex>
-          {/* TODOメモ */}
-          <Flex w="50%" justifyContent="flex-start" align="center">
-            <HStack spacing="8px" w="full" color="white" bg="blue.500" borderLeft="4px" borderColor="blue.800">
-              <CiMemoPad size="25px" style={{ marginLeft: "16px" }} />
-              <Text fontWeight="bold" fontSize="20px">
-                TODOメモ
-              </Text>
-            </HStack>
-          </Flex>
-        </HStack>
-        <HStack w="full" gap={4} p="10px 2.5%" pb="8" bg="gray.50" align="stretch">
-          <Box w="50%" pr="0px" pl="0" pb="0px" >
+
+        <Flex gap={4} mt={6} pb={10}>
+          <Box flex={1} px={6} bg='white'>
+            <Text fontWeight="bold" fontSize="20px">
+              質問一覧
+            </Text>
             <QuestionAccordion questionList={questionList} />
           </Box>
-          <Box w="50%" pr="0px" pl="0" pb="0px">
-            <Todo />
+          <Box flex={1}>
+            <TodoList
+              todos={todos}
+              handleCreateTodo={handleCreateTodo}
+              handleUpdateTodo={handleUpdateTodo}
+              handleDeleteTodo={handleDeleteTodo}
+            />
           </Box>
-        </HStack>
+        </Flex >
       </Box >
     </>
   );
