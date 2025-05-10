@@ -4,4 +4,5 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   has_many :companies, dependent: :destroy
+  has_many :todos, dependent: :destroy
 end

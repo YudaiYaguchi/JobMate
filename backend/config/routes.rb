@@ -23,6 +23,12 @@ Rails.application.routes.draw do
       post 'questions/create', to: 'questions#create'
       put 'questions/:id', to: 'questions#update'
       delete 'questions/:id', to: 'questions#destroy'
+
+      get    'todos/index',   to: 'todos#index'
+      post   'todos/create',  to: 'todos#create'
+      get    'todos/:id',     to: 'todos#show'
+      put    'todos/:id',     to: 'todos#update'
+      delete 'todos/:id',     to: 'todos#destroy'
     end
   end
 end
